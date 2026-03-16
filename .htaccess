@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# If the request is for an existing file/folder, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Home
+RewriteRule ^$ index.php [L]
+
+# Keep query strings for these routes
+RewriteRule ^checkout/?$ router.php?path=checkout [QSA,L]
+RewriteRule ^thankyou/?$ router.php?path=thankyou [QSA,L]
+
+# Generic router for all other pretty URLs
+RewriteRule ^([A-Za-z0-9-]+)/?$ router.php?path=$1 [QSA,L]
+

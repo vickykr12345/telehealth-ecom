@@ -1,0 +1,94 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Digital Blue Goggles",
+      "price": "$18.00",
+      "old_price": "$36.00",
+      "image": "images/prd-1.png",
+      "description": "Protective digital goggles designed for medical and laboratory environments. Provides crystal clear vision and strong eye protection.",
+      "rating": 4,
+      "reviews": 95
+    },
+    {
+      "id": 2,
+      "name": "Digital Thermometer",
+      "price": "$21.00",
+      "old_price": "$37.00",
+      "image": "images/prd-2.png",
+      "description": "High precision digital thermometer with fast temperature reading and easy display for medical usage.",
+      "rating": 5,
+      "reviews": 10
+    },
+    {
+      "id": 3,
+      "name": "Rubber Hand Gloves",
+      "price": "$28.00",
+      "old_price": "$36.00",
+      "image": "images/prd-3.png",
+      "description": "Disposable rubber gloves for medical safety, hygiene and protection against contamination.",
+      "rating": 4.4,
+      "reviews": 37
+    },
+    {
+      "id": 4,
+      "name": "Cotton Medical Mask",
+      "price": "$26.00",
+      "old_price": "$40.00",
+      "image": "images/prd-4.png",
+      "description": "Comfortable medical mask offering breathable protection against dust and bacteria.",
+      "rating": 4.2,
+      "reviews": 16
+    },
+    {
+      "id": 5,
+      "name": "Digital Blood Pressure Monitor",
+      "price": "$32.00",
+      "old_price": "$45.00",
+      "image": "images/prd-5.png",
+      "description": "Accurate digital blood pressure monitor designed for home and clinical use with easy one-touch operation.",
+      "rating": 4.8,
+      "reviews": 22
+    },
+    {
+      "id": 6,
+      "name": "Hand Sanitizer Gel",
+      "price": "$27.00",
+      "old_price": "",
+      "image": "images/prd-6.png",
+      "description": "Instant hand sanitizer gel that kills 99.9% germs and keeps your hands clean.",
+      "rating": 4.6,
+      "reviews": 45
+    },
+    {
+      "id": 7,
+      "name": "Wood Pendant Light",
+      "price": "$36.00",
+      "old_price": "",
+      "image": "images/prd-7.png",
+      "description": "Elegant wooden pendant light suitable for modern clinic and home interiors.",
+      "rating": 4.9,
+      "reviews": 12
+    },
+    {
+      "id": 8,
+      "name": "Medical Pulse Oximeter",
+      "price": "$32.00",
+      "old_price": "$44.00",
+      "image": "images/prd-8.png",
+      "description": "Compact fingertip pulse oximeter that quickly measures blood oxygen levels and pulse rate.",
+      "rating": 4.7,
+      "reviews": 19
+    },
+    {
+      "id": 9,
+      "name": "Infrared Thermometer Gun",
+      "price": "$32.00",
+      "old_price": "$46.00",
+      "image": "images/prd-9.png",
+      "description": "Non-contact infrared thermometer designed for fast and hygienic temperature measurement.",
+      "rating": 4.9,
+      "reviews": 27
+    }
+  ]
+}
