@@ -333,7 +333,9 @@ NAVBAR
   transform: translateY(16px);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
   z-index: 2000;
 }
 
@@ -378,7 +380,9 @@ NAVBAR
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
 }
 
 .th-toast__close:hover {
@@ -1837,4 +1841,184 @@ book an appointment section
 .consultation-img {
   border-radius: 24px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* ===============================
+CLIENT FEEDBACK SECTION
+================================ */
+
+.client-feedback {
+  padding: 100px 0;
+  background: linear-gradient(180deg, #eef3f7, #e4edf4);
+}
+
+.feedback-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.feedback-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2a6df5;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.feedback-header h2 {
+  font-size: 42px;
+  margin: 20px 0 15px;
+  color: #0c2c44;
+}
+
+.feedback-header p {
+  color: #6c7a89;
+  font-size: 16px;
+}
+
+.feedback-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.feedback-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: 0.35s ease;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.feedback-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.feedback-quote {
+  margin-bottom: 25px;
+}
+
+.feedback-quote i {
+  font-size: 24px;
+  color: #2a6df5;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.feedback-quote p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #334155;
+  font-style: italic;
+}
+
+.feedback-author {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.author-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(94, 143, 163, 0.12);
+  border: 1px solid rgba(94, 143, 163, 0.22);
+  display: grid;
+  place-items: center;
+  color: #0b847e;
+  font-size: 20px;
+}
+
+.author-info h6 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.author-location {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.author-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.author-rating i {
+  color: #f59e0b;
+  font-size: 14px;
+}
+
+.feedback-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  padding: 25px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  transition: 0.35s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item h3 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.stat-item p {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .feedback-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .feedback-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .feedback-grid {
+    grid-template-columns: 1fr;
+  }
+  .feedback-stats {
+    grid-template-columns: 1fr;
+  }
+  .feedback-header h2 {
+    font-size: 32px;
+  }
 }

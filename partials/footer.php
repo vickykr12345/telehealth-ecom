@@ -22,6 +22,7 @@
                     <a href="return-policy">Return Policy</a>
                     <a href="shipping-policy">Shipping Policy</a>
                     <a href="billing-information">Billing Information</a>
+                    <a href="shop.php">Shop</a>
                 </div>
                 <div class="th-footer__col">
                     <h6>Legal</h6>

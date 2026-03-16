@@ -497,6 +497,196 @@
 
     </section>
 
+    <!-- client feedback section -->
+    <section class="client-feedback">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="feedback-header">
+                        <span class="feedback-badge">What Our Patients Say</span>
+                        <h2>Trusted by Thousands of Happy Patients</h2>
+                        <p>Join our growing community of satisfied patients who have experienced exceptional care</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row feedback-grid">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feedback-card glass-card">
+                        <div class="feedback-quote">
+                            <i class="fa-solid fa-quote-left"></i>
+                            <p>"The telehealth service exceeded my expectations. I was able to consult with a specialist from the comfort of my home, and the follow-up care was excellent."</p>
+                        </div>
+                        <div class="feedback-author">
+                            <div class="author-avatar">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="author-info">
+                                <h6>Sarah Johnson</h6>
+                                <span class="author-location">New York, NY</span>
+                                <div class="author-rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feedback-card glass-card">
+                        <div class="feedback-quote">
+                            <i class="fa-solid fa-quote-left"></i>
+                            <p>"As a busy professional, I appreciate the convenience of virtual consultations. The doctors are knowledgeable and the platform is easy to use."</p>
+                        </div>
+                        <div class="feedback-author">
+                            <div class="author-avatar">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="author-info">
+                                <h6>Michael Chen</h6>
+                                <span class="author-location">San Francisco, CA</span>
+                                <div class="author-rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feedback-card glass-card">
+                        <div class="feedback-quote">
+                            <i class="fa-solid fa-quote-left"></i>
+                            <p>"The dental care I received was outstanding. The team was professional, and the results speak for themselves. My smile has never looked better!"</p>
+                        </div>
+                        <div class="feedback-author">
+                            <div class="author-avatar">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="author-info">
+                                <h6>Emily Rodriguez</h6>
+                                <span class="author-location">Miami, FL</span>
+                                <div class="author-rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feedback-card glass-card">
+                        <div class="feedback-quote">
+                            <i class="fa-solid fa-quote-left"></i>
+                            <p>"I was hesitant about online healthcare at first, but this platform changed my mind. The doctors are attentive and genuinely care about your well-being."</p>
+                        </div>
+                        <div class="feedback-author">
+                            <div class="author-avatar">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="author-info">
+                                <h6>Robert Thompson</h6>
+                                <span class="author-location">Chicago, IL</span>
+                                <div class="author-rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feedback-card glass-card">
+                        <div class="feedback-quote">
+                            <i class="fa-solid fa-quote-left"></i>
+                            <p>"The pharmacy delivery service is incredibly convenient. My medications arrive on time, and the customer service is always helpful."</p>
+                        </div>
+                        <div class="feedback-author">
+                            <div class="author-avatar">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="author-info">
+                                <h6>Jennifer Lee</h6>
+                                <span class="author-location">Seattle, WA</span>
+                                <div class="author-rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feedback-card glass-card">
+                        <div class="feedback-quote">
+                            <i class="fa-solid fa-quote-left"></i>
+                            <p>"From the initial consultation to the final results, every step was handled with professionalism and care. I highly recommend this service!"</p>
+                        </div>
+                        <div class="feedback-author">
+                            <div class="author-avatar">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="author-info">
+                                <h6>David Wilson</h6>
+                                <span class="author-location">Boston, MA</span>
+                                <div class="author-rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="feedback-stats">
+                        <div class="stat-item">
+                            <h3>98%</h3>
+                            <p>Patient Satisfaction</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>500+</h3>
+                            <p>Trusted Doctors</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>24/7</h3>
+                            <p>Support Available</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>10k+</h3>
+                            <p>Happy Patients</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- book an appointment section -->
     <section class="appointment-section" id="book-appointment">
         <div class="container">

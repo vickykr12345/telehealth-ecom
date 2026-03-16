@@ -34,6 +34,9 @@ $__user = auth_current_user();
                     <li class="nav-item">
                         <a class="nav-link<?php echo __is_active('services.php'); ?>" href="services">Services</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link<?php echo __is_active('shop.php'); ?>" href="shop.php">Shop</a>
+                    </li>
                     <li class="nav-item dropdown th-drop">
                         <a class="nav-link dropdown-toggle th-drop__toggle<?php echo __is_active('book-appointment.php'); ?>" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
