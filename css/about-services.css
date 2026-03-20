@@ -1,0 +1,253 @@
+/* 
+ * About Page - Service Card Style Animations
+ * Smooth animations and performance optimized
+ */
+
+/* CSS Variables for Service Card Theme */
+:root {
+  /* Base Colors - Matching your website theme */
+  --theme-primary: #3b5865;
+  --theme-accent: #4f8ca5;
+  --theme-dark: #333;
+  --theme-text: #6c757d;
+  --theme-glass: rgba(255, 255, 255, 0.6);
+
+  /* Text Colors */
+  --text-main: #0f172a;
+  --text-subtle: #5b7285;
+  --text-light: #f8fafc;
+
+  /* Theme Effects */
+  --bg: rgba(255, 255, 255, 0.72);
+  --bg-hover: rgba(255, 255, 255, 0.82);
+  --border: rgba(255, 255, 255, 0.58);
+  --border-hover: rgba(255, 255, 255, 0.75);
+  --backdrop: blur(22px);
+
+  /* Shadows - Performance optimized */
+  --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-medium: 0 16px 32px rgba(15, 23, 42, 0.12);
+  --shadow-strong: 0 24px 48px rgba(15, 23, 42, 0.16);
+
+  /* Border Radius */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-xl: 32px;
+
+  /* Animations - Optimized for performance */
+  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --hover-scale: 1.02;
+}
+
+/* Service Card Container - Performance optimized */
+.service-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 40px;
+  /* Reduce layout thrashing */
+  contain: layout style paint;
+}
+
+.service-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  backdrop-filter: var(--backdrop);
+  -webkit-backdrop-filter: var(--backdrop);
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+
+  /* Performance optimizations */
+  will-change: transform;
+  transform: translateZ(0);
+  /* Use hardware acceleration */
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+}
+
+/* Smooth hover animation */
+.service-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: var(--shadow-medium);
+  border-color: var(--border-hover);
+  z-index: 2;
+}
+
+/* Service Icon with smooth animation */
+.service-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 88, 101, 0.2),
+    rgba(79, 140, 165, 0.2)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.08) rotate(3deg);
+}
+
+.service-icon i {
+  font-size: 24px;
+  color: var(--theme-primary);
+  position: relative;
+  z-index: 1;
+  transition: var(--transition);
+}
+
+/* Service Content */
+.service-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+  transition: var(--transition);
+}
+
+.service-desc {
+  color: var(--text-subtle);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+/* Features List with smooth animations */
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 10px;
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 14px;
+  transition: var(--transition);
+  will-change: transform, background;
+}
+
+.feature-item:hover {
+  background: rgba(255, 255, 255, 0.55);
+  transform: translateX(3px);
+}
+
+.feature-item i {
+  color: var(--theme-accent);
+  font-size: 14px;
+  width: 18px;
+  text-align: center;
+  transition: var(--transition);
+}
+
+/* Entry animation for service cards */
+.service-card {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+}
+
+.service-card.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Performance optimized animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .service-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .service-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    min-height: auto;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-card {
+    padding: 20px;
+  }
+
+  .service-title {
+    font-size: 20px;
+  }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .service-card,
+  .service-icon,
+  .feature-item {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .service-card {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Focus states for accessibility */
+.service-card:focus-within {
+  outline: 2px solid var(--theme-primary);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .service-card {
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    color: black;
+    transform: none;
+  }
+}

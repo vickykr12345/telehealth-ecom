@@ -267,6 +267,146 @@
   color: #0f172a;
 }
 
+.pf-dashboard-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) repeat(2, minmax(180px, 0.6fr));
+  gap: 14px;
+  margin-bottom: 18px;
+  align-items: start;
+}
+
+.pf-dashboard-search {
+  margin-bottom: 0;
+}
+
+.pf-dashboard-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pf-dashboard-filter {
+  display: grid;
+  gap: 8px;
+}
+
+.pf-dashboard-filter span {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 900;
+}
+
+.pf-dashboard-filter input,
+.pf-dashboard-filter select {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(255, 255, 255, 0.92);
+  min-height: 56px;
+  padding: 12px 18px;
+  color: #0f172a;
+  outline: none;
+  font-size: 16px;
+  line-height: 1.2;
+  box-shadow: none;
+}
+
+.pf-dashboard-filter input:focus,
+.pf-dashboard-filter select:focus {
+  border-color: rgba(59, 88, 101, 0.45);
+  box-shadow: 0 0 0 4px rgba(59, 88, 101, 0.08);
+}
+
+.pf-table--dashboard-orders {
+  margin-top: 10px;
+}
+
+.pf-tr--dashboard-orders {
+  --pf-cols: 0.95fr 1.2fr 1.2fr 0.7fr 0.8fr 0.8fr;
+}
+
+.pf-dashboard-order {
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.pf-dashboard-order:hover {
+  background: rgba(248, 250, 252, 0.95);
+}
+
+.pf-products-head--modal {
+  margin-bottom: 14px;
+}
+
+.pf-modal-content {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 24px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
+}
+
+.pf-modal-header {
+  align-items: flex-start;
+  padding: 22px 24px 14px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.pf-modal-subtitle {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.pf-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pf-detail-card {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(248, 250, 252, 0.82);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.pf-detail-card h5 {
+  margin: 0 0 14px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.pf-detail-list {
+  display: grid;
+  gap: 12px;
+}
+
+.pf-detail-list > div {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.pf-detail-list span {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  font-weight: 900;
+}
+
+.pf-detail-list strong {
+  display: block;
+  margin-top: 6px;
+  color: #0f172a;
+  overflow-wrap: anywhere;
+}
+
 .pf-admin-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -744,7 +884,19 @@
   .pf-product-facts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .pf-dashboard-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+  .pf-dashboard-search {
+    grid-column: 1 / -1;
+  }
+  .pf-detail-grid {
+    grid-template-columns: 1fr;
+  }
   .pf-tr--admin-appts {
+    --pf-cols: 1fr 1fr;
+  }
+  .pf-tr--dashboard-orders {
     --pf-cols: 1fr 1fr;
   }
   .pf-tr--contacts {
@@ -771,6 +923,18 @@
   }
   .pf-form-grid {
     grid-template-columns: 1fr;
+  }
+  .pf-dashboard-filters {
+    grid-template-columns: 1fr;
+  }
+  .pf-dashboard-search {
+    grid-column: auto;
+  }
+  .pf-dashboard-head-actions {
+    width: 100%;
+  }
+  .pf-modal-header {
+    padding: 18px 18px 12px;
   }
   .pf-form-grid__wide {
     grid-column: auto;

@@ -1,5 +1,5 @@
 /* ===============================
-THEME VARIABLES
+THEME VARIABLES - OPTIMIZED
 ================================ */
 
 :root {
@@ -8,6 +8,9 @@ THEME VARIABLES
   --dark: #333;
   --text: #6c757d;
   --glass: rgba(255, 255, 255, 0.6);
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.4s ease;
 }
 
 /* ===============================
@@ -178,6 +181,7 @@ NAVBAR
     transform 0.2s ease,
     box-shadow 0.2s ease,
     filter 0.2s ease;
+  border: none;
 }
 
 .th-btn:hover {
@@ -2824,5 +2828,76 @@ MODERN CONTACT PAGE (GLASS)
 
   .input-box.full {
     grid-column: span 1;
+  }
+}
+
+/* ==================================
+about us page
+==================================== */
+.page-wrap {
+  padding: 70px 0 40px;
+}
+.page-card {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 26px;
+  box-shadow: 0 30px 90px rgba(15, 23, 42, 0.12);
+  padding: 44px 34px;
+}
+.page-title {
+  font-weight: 900;
+  margin: 0 0 10px;
+}
+.page-sub {
+  color: #475569;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+.page-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+  align-items: start;
+}
+.chip {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(34, 193, 180, 0.14);
+  border: 1px solid rgba(34, 193, 180, 0.35);
+  color: #0b847e;
+  font-weight: 900;
+}
+.side {
+  background: rgba(248, 250, 252, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 18px;
+  padding: 16px;
+}
+.side h6 {
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #64748b;
+  font-size: 12px;
+}
+.side p {
+  color: #475569;
+  font-weight: 600;
+  margin: 8px 0 0;
+}
+@media (max-width: 992px) {
+  .page-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 576px) {
+  .page-card {
+    padding: 28px 18px;
   }
 }

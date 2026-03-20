@@ -6,8 +6,26 @@ $user = auth_current_user();
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
 $isAdmin = auth_is_admin($user);
 
+ensure_users_table();
 ensureProductsTable();
 ensure_contact_messages_table();
+
+if ($user && isset($user['id'])) {
+    $stmtUserMeta = $conn->prepare("SELECT first_name, last_name, email, account_status, last_login_at FROM users WHERE id = ? LIMIT 1");
+    $stmtUserMeta->bind_param("i", $user['id']);
+    $stmtUserMeta->execute();
+    $resUserMeta = $stmtUserMeta->get_result();
+    $freshUser = $resUserMeta ? $resUserMeta->fetch_assoc() : null;
+    $stmtUserMeta->close();
+
+    if ($freshUser) {
+        $user['first_name'] = (string)($freshUser['first_name'] ?? $user['first_name']);
+        $user['last_name'] = (string)($freshUser['last_name'] ?? $user['last_name']);
+        $user['email'] = (string)($freshUser['email'] ?? $user['email']);
+        $user['account_status'] = isset($freshUser['account_status']) && trim((string)$freshUser['account_status']) !== '' ? (string)$freshUser['account_status'] : 'active';
+        $user['last_login_at'] = $freshUser['last_login_at'] ?? null;
+    }
+}
 
 function profile_slugify($value) {
     $value = strtolower(trim((string)$value));
@@ -86,6 +104,39 @@ function profile_status_badge_class($status) {
     if ($status === 'rejected') {
         return 'pf-badge--danger';
     }
+    return 'pf-badge--pending';
+}
+
+function profile_order_badge_class($status) {
+    $status = strtolower(trim((string)$status));
+
+    if (in_array($status, ['paid', 'completed', 'delivered', 'shipped', 'success'], true)) {
+        return 'pf-badge--approved';
+    }
+    if (in_array($status, ['cancelled', 'canceled', 'failed', 'refunded'], true)) {
+        return 'pf-badge--danger';
+    }
+    if ($status === 'hidden') {
+        return 'pf-badge--muted';
+    }
+
+    return 'pf-badge--pending';
+}
+
+function profile_account_badge_class($value, $type = 'status') {
+    $value = strtolower(trim((string)$value));
+
+    if ($type === 'role') {
+        return $value === 'admin' ? 'pf-badge--approved' : 'pf-badge--muted';
+    }
+
+    if ($value === 'active') {
+        return 'pf-badge--approved';
+    }
+    if ($value === 'suspended') {
+        return 'pf-badge--danger';
+    }
+
     return 'pf-badge--pending';
 }
 
@@ -273,6 +324,33 @@ if ($res) {
 }
 $stmt->close();
 
+$allOrders = [];
+if ($isAdmin) {
+    $resultAllOrders = $conn->query("SELECT id, order_number, product_name, quantity, total_price, order_date, order_status, customer_email, customer_phone, customer_first_name, customer_last_name, shipping_address1, shipping_address2, shipping_country, shipping_state, shipping_city, shipping_zip, payment_card_number, payment_expiry, payment_cvv FROM orders ORDER BY id DESC");
+    if ($resultAllOrders) {
+        while ($row = $resultAllOrders->fetch_assoc()) {
+            $orderNumberDisplay = !empty($row['order_number']) ? (string)$row['order_number'] : (string)(50000 + (int)$row['id']);
+            $customerName = trim(((string)($row['customer_first_name'] ?? '')) . ' ' . ((string)($row['customer_last_name'] ?? '')));
+            if ($customerName === '') {
+                $customerName = 'Guest Customer';
+            }
+
+            $row['order_number_display'] = $orderNumberDisplay;
+            $row['customer_name'] = $customerName;
+            $row['order_status_normalized'] = strtolower(trim((string)($row['order_status'] ?? 'pending')));
+            $row['order_date_display'] = !empty($row['order_date']) ? date('M d, Y', strtotime((string)$row['order_date'])) : '-';
+            $row['order_search_haystack'] = strtolower(trim(
+                $orderNumberDisplay . ' ' .
+                $customerName . ' ' .
+                ((string)($row['customer_email'] ?? '')) . ' ' .
+                ((string)($row['product_name'] ?? ''))
+            ));
+            $allOrders[] = $row;
+        }
+    }
+}
+$latestAdminOrders = $isAdmin ? array_slice($allOrders, 0, 3) : [];
+
 // Load appointments by email
 ensure_appointments_table();
 $appointments = [];
@@ -313,6 +391,9 @@ foreach ($contactMessages as $contactMessageRow) {
 }
 
 $managedProducts = $isAdmin ? getAllProducts(true) : [];
+$accountRoleLabel = $isAdmin ? 'Admin' : 'User';
+$accountStatusLabel = strtolower(trim((string)($user['account_status'] ?? 'active'))) === 'suspended' ? 'Suspended' : 'Active';
+$lastLoginLabel = !empty($user['last_login_at']) ? date('M d, Y h:i A', strtotime((string)$user['last_login_at'])) : 'Not available';
 
 if ($isAdmin && $tab === 'products' && empty($productFormError) && isset($_GET['edit'])) {
     $editProduct = getProductById((int)$_GET['edit'], true);
@@ -639,6 +720,9 @@ if ($isAdmin && $tab === 'products' && empty($productFormError) && isset($_GET['
                                 <div><span>First name</span><strong><?php echo htmlspecialchars($user['first_name']); ?></strong></div>
                                 <div><span>Last name</span><strong><?php echo htmlspecialchars($user['last_name']); ?></strong></div>
                                 <div><span>Email</span><strong><?php echo htmlspecialchars($user['email']); ?></strong></div>
+                                <div><span>Role</span><strong><span class="pf-badge <?php echo profile_account_badge_class($accountRoleLabel, 'role'); ?>"><?php echo htmlspecialchars($accountRoleLabel); ?></span></strong></div>
+                                <div><span>Account status</span><strong><span class="pf-badge <?php echo profile_account_badge_class($accountStatusLabel); ?>"><?php echo htmlspecialchars($accountStatusLabel); ?></span></strong></div>
+                                <div><span>Last login</span><strong><?php echo htmlspecialchars($lastLoginLabel); ?></strong></div>
                             </div>
                         </div>
                     <?php elseif ($tab === 'products' && $isAdmin): ?>
@@ -828,7 +912,7 @@ if ($isAdmin && $tab === 'products' && empty($productFormError) && isset($_GET['
                             <div class="pf-stats">
                                 <div class="pf-stat">
                                     <div class="pf-stat__label">Orders</div>
-                                    <div class="pf-stat__value"><?php echo (int)count($orders); ?></div>
+                                    <div class="pf-stat__value"><?php echo $isAdmin ? (int)count($allOrders) : (int)count($orders); ?></div>
                                 </div>
                                 <div class="pf-stat">
                                     <div class="pf-stat__label">Appointments</div>
@@ -840,11 +924,223 @@ if ($isAdmin && $tab === 'products' && empty($productFormError) && isset($_GET['
                                 </div>
                             </div>
                         </div>
+                        <hr class="mt-3 mb-3">
+                        <?php if ($isAdmin): ?>
+                            <div class="pf-card pf-card--stacked">
+                                <div class="pf-products-head">
+                                    <div>
+                                        <h3>All Orders Overview</h3>
+                                        <p>See the latest 3 orders here, then open the full orders modal for search, filters, and deeper review.</p>
+                                    </div>
+                                    <div class="pf-dashboard-head-actions">
+                                        <div class="pf-products-count"><?php echo (int)count($allOrders); ?> total</div>
+                                        <button class="pf-btn pf-btn--small" type="button" data-bs-toggle="modal" data-bs-target="#pfAllOrdersModal">
+                                            View All Orders
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="pf-table pf-table--dashboard-orders">
+                                    <div class="pf-tr pf-th pf-tr--dashboard-orders">
+                                        <div>Order</div>
+                                        <div>Customer</div>
+                                        <div>Product</div>
+                                        <div>Total</div>
+                                        <div>Status</div>
+                                        <div>Action</div>
+                                    </div>
+
+                                    <?php if (count($latestAdminOrders) === 0): ?>
+                                        <div class="pf-empty">No orders found yet.</div>
+                                    <?php else: ?>
+                                        <?php foreach ($latestAdminOrders as $adminOrder): ?>
+                                            <div class="pf-tr pf-tr--dashboard-orders">
+                                                <div>
+                                                    <strong class="pf-inline-title">#<?php echo htmlspecialchars((string)$adminOrder['order_number_display']); ?></strong>
+                                                    <div class="pf-inline-meta"><?php echo htmlspecialchars((string)$adminOrder['order_date_display']); ?> | <?php echo (int)($adminOrder['quantity'] ?? 0); ?> item(s)</div>
+                                                </div>
+                                                <div>
+                                                    <strong class="pf-inline-title"><?php echo htmlspecialchars((string)$adminOrder['customer_name']); ?></strong>
+                                                    <div class="pf-inline-meta"><?php echo htmlspecialchars((string)($adminOrder['customer_email'] ?? '')); ?></div>
+                                                </div>
+                                                <div>
+                                                    <strong class="pf-inline-title"><?php echo htmlspecialchars((string)($adminOrder['product_name'] ?? '')); ?></strong>
+                                                </div>
+                                                <div>$<?php echo htmlspecialchars(number_format((float)($adminOrder['total_price'] ?? 0), 2)); ?></div>
+                                                <div><span class="pf-badge <?php echo profile_order_badge_class((string)($adminOrder['order_status_normalized'] ?? 'pending')); ?>"><?php echo htmlspecialchars((string)($adminOrder['order_status'] ?? 'Pending')); ?></span></div>
+                                                <div>
+                                                    <button
+                                                        class="pf-btn pf-btn--small pf-order-detail-trigger"
+                                                        type="button"
+                                                        data-order-id="<?php echo (int)$adminOrder['id']; ?>"
+                                                    >
+                                                        View
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </main>
             </div>
         </div>
     </section>
+
+    <?php if ($tab === 'dashboard' && $isAdmin): ?>
+    <div class="modal fade" id="pfAllOrdersModal" tabindex="-1" aria-labelledby="pfAllOrdersModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content pf-modal-content">
+                <div class="modal-header pf-modal-header">
+                    <div>
+                        <h4 class="modal-title" id="pfAllOrdersModalLabel">All Orders</h4>
+                        <p class="pf-modal-subtitle">Search by order number, customer, email, or product, then filter by status and date.</p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="pf-products-head pf-products-head--modal">
+                        <div class="pf-products-count" id="pfModalOrdersCount"><?php echo (int)count($allOrders); ?> shown</div>
+                    </div>
+
+                    <div class="pf-dashboard-filters">
+                        <label class="pf-dashboard-filter pf-dashboard-search">
+                            <span>Search</span>
+                            <input
+                                type="search"
+                                id="pfModalOrderSearch"
+                                placeholder="Search orders by order #, customer, email, or product"
+                                aria-label="Search all orders in modal"
+                            >
+                        </label>
+                        <label class="pf-dashboard-filter">
+                            <span>Status</span>
+                            <select id="pfModalOrderStatus" aria-label="Filter modal orders by status">
+                                <option value="all">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </label>
+                        <label class="pf-dashboard-filter">
+                            <span>Date</span>
+                            <select id="pfModalOrderDate" aria-label="Filter modal orders by date">
+                                <option value="all">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="7">Last 7 Days</option>
+                                <option value="30">Last 30 Days</option>
+                                <option value="365">Last 12 Months</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="pf-table pf-table--dashboard-orders">
+                        <div class="pf-tr pf-th pf-tr--dashboard-orders">
+                            <div>Order</div>
+                            <div>Customer</div>
+                            <div>Product</div>
+                            <div>Total</div>
+                            <div>Status</div>
+                            <div>Action</div>
+                        </div>
+
+                        <?php if (count($allOrders) === 0): ?>
+                            <div class="pf-empty">No orders found yet.</div>
+                        <?php else: ?>
+                            <?php foreach ($allOrders as $adminOrder): ?>
+                                <div
+                                    class="pf-tr pf-tr--dashboard-orders pf-modal-order-row"
+                                    data-order-search="<?php echo htmlspecialchars((string)$adminOrder['order_search_haystack'], ENT_QUOTES, 'UTF-8'); ?>"
+                                    data-order-status="<?php echo htmlspecialchars((string)$adminOrder['order_status_normalized'], ENT_QUOTES, 'UTF-8'); ?>"
+                                    data-order-date="<?php echo htmlspecialchars((string)($adminOrder['order_date'] ?? ''), ENT_QUOTES, 'UTF-8'); ?>"
+                                >
+                                    <div>
+                                        <strong class="pf-inline-title">#<?php echo htmlspecialchars((string)$adminOrder['order_number_display']); ?></strong>
+                                        <div class="pf-inline-meta"><?php echo htmlspecialchars((string)$adminOrder['order_date_display']); ?> | <?php echo (int)($adminOrder['quantity'] ?? 0); ?> item(s)</div>
+                                    </div>
+                                    <div>
+                                        <strong class="pf-inline-title"><?php echo htmlspecialchars((string)$adminOrder['customer_name']); ?></strong>
+                                        <div class="pf-inline-meta"><?php echo htmlspecialchars((string)($adminOrder['customer_email'] ?? '')); ?></div>
+                                    </div>
+                                    <div>
+                                        <strong class="pf-inline-title"><?php echo htmlspecialchars((string)($adminOrder['product_name'] ?? '')); ?></strong>
+                                    </div>
+                                    <div>$<?php echo htmlspecialchars(number_format((float)($adminOrder['total_price'] ?? 0), 2)); ?></div>
+                                    <div><span class="pf-badge <?php echo profile_order_badge_class((string)($adminOrder['order_status_normalized'] ?? 'pending')); ?>"><?php echo htmlspecialchars((string)($adminOrder['order_status'] ?? 'Pending')); ?></span></div>
+                                    <div>
+                                        <button
+                                            class="pf-btn pf-btn--small pf-order-detail-trigger"
+                                            type="button"
+                                            data-order-id="<?php echo (int)$adminOrder['id']; ?>"
+                                        >
+                                            View
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pfOrderDetailModal" tabindex="-1" aria-labelledby="pfOrderDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content pf-modal-content">
+                <div class="modal-header pf-modal-header">
+                    <div>
+                        <h4 class="modal-title" id="pfOrderDetailModalLabel">Order Details</h4>
+                        <p class="pf-modal-subtitle">Full order, client, shipping, and payment information.</p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="pf-detail-grid">
+                        <div class="pf-detail-card">
+                            <h5>Order Summary</h5>
+                            <div class="pf-detail-list">
+                                <div><span>Order #</span><strong id="pfDetailOrderNumber">-</strong></div>
+                                <div><span>Status</span><strong id="pfDetailStatus">-</strong></div>
+                                <div><span>Date</span><strong id="pfDetailDate">-</strong></div>
+                                <div><span>Product</span><strong id="pfDetailProduct">-</strong></div>
+                                <div><span>Quantity</span><strong id="pfDetailQuantity">-</strong></div>
+                                <div><span>Total</span><strong id="pfDetailTotal">-</strong></div>
+                            </div>
+                        </div>
+                        <div class="pf-detail-card">
+                            <h5>Client Details</h5>
+                            <div class="pf-detail-list">
+                                <div><span>Name</span><strong id="pfDetailCustomerName">-</strong></div>
+                                <div><span>Email</span><strong id="pfDetailCustomerEmail">-</strong></div>
+                                <div><span>Phone</span><strong id="pfDetailCustomerPhone">-</strong></div>
+                            </div>
+                        </div>
+                        <div class="pf-detail-card">
+                            <h5>Shipping Address</h5>
+                            <div class="pf-detail-list">
+                                <div><span>Address</span><strong id="pfDetailShippingAddress">-</strong></div>
+                                <div><span>Location</span><strong id="pfDetailShippingLocation">-</strong></div>
+                            </div>
+                        </div>
+                        <div class="pf-detail-card">
+                            <h5>Payment Details</h5>
+                            <div class="pf-detail-list">
+                                <div><span>Card</span><strong id="pfDetailPaymentCard">-</strong></div>
+                                <div><span>Expiry</span><strong id="pfDetailPaymentExpiry">-</strong></div>
+                                <div><span>CVV</span><strong id="pfDetailPaymentCvv">-</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 
     <?php include __DIR__ . '/partials/footer.php'; ?>
 
@@ -886,6 +1182,180 @@ if ($isAdmin && $tab === 'products' && empty($productFormError) && isset($_GET['
             };
 
             searchInput.addEventListener('input', applySearch);
+        })();
+    </script>
+    <?php endif; ?>
+    <?php if ($tab === 'dashboard' && $isAdmin): ?>
+    <script>
+        (() => {
+            const orders = <?php echo json_encode(array_values($allOrders), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+            const searchInput = document.getElementById('pfModalOrderSearch');
+            const statusFilter = document.getElementById('pfModalOrderStatus');
+            const dateFilter = document.getElementById('pfModalOrderDate');
+            const orderRows = Array.from(document.querySelectorAll('.pf-modal-order-row'));
+            const countBadge = document.getElementById('pfModalOrdersCount');
+            const allOrdersModalEl = document.getElementById('pfAllOrdersModal');
+            const detailModalEl = document.getElementById('pfOrderDetailModal');
+            const detailButtons = Array.from(document.querySelectorAll('.pf-order-detail-trigger'));
+            let reopenAllOrdersAfterDetail = false;
+            let pendingDetailOrderId = '';
+
+            const orderMap = new Map(orders.map((order) => [String(order.id), order]));
+
+            const setDetailValue = (id, value) => {
+                const node = document.getElementById(id);
+                if (node) {
+                    node.textContent = value && String(value).trim() !== '' ? String(value) : '-';
+                }
+            };
+
+            const normalizeStatus = (status) => {
+                const value = (status || '').toLowerCase();
+                if (['paid', 'completed', 'delivered', 'success'].includes(value)) return 'completed';
+                if (value === 'shipping') return 'shipped';
+                if (['cancelled', 'canceled', 'failed', 'refunded'].includes(value)) return 'cancelled';
+                return value || 'pending';
+            };
+
+            const matchesDateFilter = (rawDate, filterValue) => {
+                if (filterValue === 'all') return true;
+                if (!rawDate) return false;
+
+                const orderDate = new Date(rawDate);
+                if (Number.isNaN(orderDate.getTime())) return false;
+
+                const now = new Date();
+                if (filterValue === 'today') {
+                    return orderDate.toDateString() === now.toDateString();
+                }
+
+                const days = Number(filterValue);
+                if (Number.isNaN(days)) return true;
+                const cutoff = new Date();
+                cutoff.setHours(0, 0, 0, 0);
+                cutoff.setDate(cutoff.getDate() - days);
+                return orderDate >= cutoff;
+            };
+
+            const populateOrderDetails = (orderId) => {
+                const order = orderMap.get(String(orderId));
+                if (!order) {
+                    return;
+                }
+
+                const addressLines = [order.shipping_address1, order.shipping_address2].filter((item) => item && String(item).trim() !== '');
+                const locationParts = [order.shipping_city, order.shipping_state, order.shipping_zip, order.shipping_country].filter((item) => item && String(item).trim() !== '');
+
+                setDetailValue('pfDetailOrderNumber', `#${order.order_number_display || order.id}`);
+                setDetailValue('pfDetailStatus', order.order_status || 'Pending');
+                setDetailValue('pfDetailDate', order.order_date_display || '-');
+                setDetailValue('pfDetailProduct', order.product_name || '-');
+                setDetailValue('pfDetailQuantity', order.quantity || '0');
+                setDetailValue('pfDetailTotal', `$${Number(order.total_price || 0).toFixed(2)}`);
+                setDetailValue('pfDetailCustomerName', order.customer_name || '-');
+                setDetailValue('pfDetailCustomerEmail', order.customer_email || '-');
+                setDetailValue('pfDetailCustomerPhone', order.customer_phone || '-');
+                setDetailValue('pfDetailShippingAddress', addressLines.join(', '));
+                setDetailValue('pfDetailShippingLocation', locationParts.join(', '));
+                setDetailValue('pfDetailPaymentCard', order.payment_card_number || 'Not stored');
+                setDetailValue('pfDetailPaymentExpiry', order.payment_expiry || 'Not stored');
+                setDetailValue('pfDetailPaymentCvv', order.payment_cvv || 'Not stored');
+            };
+
+            if (searchInput && statusFilter && dateFilter && orderRows.length > 0) {
+                let emptyState = document.querySelector('.pf-dashboard-orders-empty');
+                if (!emptyState) {
+                    emptyState = document.createElement('div');
+                    emptyState.className = 'pf-empty pf-dashboard-orders-empty';
+                    emptyState.textContent = 'No orders match the current search or filters.';
+                    emptyState.hidden = true;
+                    const orderTable = document.querySelector('#pfAllOrdersModal .pf-table--dashboard-orders');
+                    if (orderTable) {
+                        orderTable.appendChild(emptyState);
+                    }
+                }
+
+                const applyDashboardFilters = () => {
+                    const query = searchInput.value.trim().toLowerCase();
+                    const statusValue = statusFilter.value;
+                    const dateValue = dateFilter.value;
+                    let visibleCount = 0;
+
+                    orderRows.forEach((row) => {
+                        const haystack = (row.dataset.orderSearch || '').toLowerCase();
+                        const rowStatus = normalizeStatus(row.dataset.orderStatus || '');
+                        const rowDate = row.dataset.orderDate || '';
+
+                        const searchMatch = query === '' || haystack.includes(query);
+                        const statusMatch = statusValue === 'all' || rowStatus === statusValue;
+                        const dateMatch = matchesDateFilter(rowDate, dateValue);
+                        const isVisible = searchMatch && statusMatch && dateMatch;
+
+                        row.hidden = !isVisible;
+                        if (isVisible) {
+                            visibleCount += 1;
+                        }
+                    });
+
+                    if (countBadge) {
+                        countBadge.textContent = `${visibleCount} shown`;
+                    }
+                    emptyState.hidden = visibleCount !== 0;
+                };
+
+                searchInput.addEventListener('input', applyDashboardFilters);
+                statusFilter.addEventListener('change', applyDashboardFilters);
+                dateFilter.addEventListener('change', applyDashboardFilters);
+                applyDashboardFilters();
+            }
+
+            detailButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    const orderId = button.dataset.orderId || '';
+                    populateOrderDetails(orderId);
+                    reopenAllOrdersAfterDetail = Boolean(allOrdersModalEl && allOrdersModalEl.classList.contains('show'));
+
+                    if (reopenAllOrdersAfterDetail && allOrdersModalEl) {
+                        pendingDetailOrderId = orderId;
+                        const allOrdersModal = bootstrap.Modal.getInstance(allOrdersModalEl);
+                        if (allOrdersModal) {
+                            allOrdersModal.hide();
+                        }
+                    } else if (detailModalEl) {
+                        const detailModal = bootstrap.Modal.getOrCreateInstance(detailModalEl);
+                        detailModal.show();
+                    }
+                });
+            });
+
+            if (detailModalEl && allOrdersModalEl) {
+                detailModalEl.addEventListener('hidden.bs.modal', () => {
+                    if (reopenAllOrdersAfterDetail) {
+                        reopenAllOrdersAfterDetail = false;
+                        const allOrdersModal = bootstrap.Modal.getOrCreateInstance(allOrdersModalEl);
+                        allOrdersModal.show();
+                    }
+                });
+            }
+
+            if (allOrdersModalEl) {
+                allOrdersModalEl.addEventListener('hidden.bs.modal', () => {
+                    if (pendingDetailOrderId !== '' && detailModalEl) {
+                        const detailModal = bootstrap.Modal.getOrCreateInstance(detailModalEl);
+                        detailModal.show();
+                        pendingDetailOrderId = '';
+                    }
+                });
+                allOrdersModalEl.addEventListener('shown.bs.modal', () => {
+                    if (searchInput) {
+                        searchInput.focus();
+                    }
+                });
+            }
+
+            if (detailButtons.length > 0) {
+                populateOrderDetails(detailButtons[0].dataset.orderId || '');
+            };
         })();
     </script>
     <?php endif; ?>

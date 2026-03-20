@@ -1,0 +1,787 @@
+.th-about-body {
+  --th-about-ink: #10263a;
+  --th-about-subtle: #5b7285;
+  --th-about-accent: #0f9f99;
+  --th-about-accent-strong: #0a7c83;
+  --th-about-accent-soft: rgba(15, 159, 153, 0.14);
+  --th-about-border: rgba(255, 255, 255, 0.58);
+  --th-about-panel: rgba(255, 255, 255, 0.54);
+  --th-about-panel-strong: rgba(255, 255, 255, 0.74);
+  --th-about-shadow: 0 24px 70px rgba(15, 23, 42, 0.1);
+  --th-about-radius: 28px;
+}
+
+.th-about-page {
+  position: relative;
+  padding: 38px 0 10px;
+  overflow: hidden;
+}
+
+/* Optimized background - reduced blur and simplified */
+.th-about-page::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: -180px;
+  width: 540px;
+  height: 540px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(34, 193, 195, 0.12),
+    transparent 70%
+  );
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.th-about-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.th-about-wrap {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.th-about-hero,
+.th-about-proof,
+.th-about-story,
+.th-about-process,
+.th-about-specialties,
+.th-about-labs,
+.th-about-team,
+.th-about-cta {
+  padding: 34px 0;
+}
+
+.th-about-eyebrow,
+.th-about-section-head__eyebrow,
+.th-about-tab-panel__eyebrow,
+.th-about-panel__kicker,
+.th-about-floating-card__label,
+.th-about-process-card__step,
+.th-about-lab-card__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 159, 153, 0.18);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--th-about-accent-strong);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.th-about-title,
+.th-about-section-head__title,
+.th-about-panel__title,
+.th-about-tab-panel__title,
+.th-about-cta-card__title {
+  margin: 0;
+  color: var(--th-about-ink);
+  letter-spacing: -0.03em;
+}
+
+.th-about-title {
+  margin-top: 18px;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.02;
+  font-weight: 900;
+  max-width: 640px;
+}
+
+.th-about-title span {
+  color: #2f7f97;
+}
+
+.th-about-copy,
+.th-about-panel__copy,
+.th-about-tab-panel__text,
+.th-about-cta-card__text,
+.th-about-process-card__text,
+.th-about-metric-card__text,
+.th-about-service-card span,
+.th-about-doctor-card__role,
+.th-about-proof-card__label {
+  margin: 0;
+  color: var(--th-about-subtle);
+  line-height: 1.7;
+}
+
+.th-about-copy {
+  max-width: 620px;
+  margin-top: 18px;
+  font-size: 16px;
+}
+
+.th-about-copy--muted {
+  color: #6c8190;
+}
+
+.th-about-hero__shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+  gap: 28px;
+  align-items: center;
+}
+
+.th-about-hero__content,
+.th-about-panel,
+.th-about-proof-card,
+.th-about-process-card,
+.th-about-tab-panel,
+.th-about-doctor-card,
+.th-about-cta-card,
+.th-about-media-card,
+.th-about-metric-card {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.72),
+    rgba(255, 255, 255, 0.38)
+  );
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--th-about-border);
+  box-shadow: var(--th-about-shadow);
+}
+
+.th-about-hero__content {
+  padding: 38px;
+  border-radius: var(--th-about-radius);
+}
+
+.th-about-highlight-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.th-about-highlight-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  color: #244158;
+}
+
+.th-about-highlight-item i {
+  color: var(--th-about-accent);
+  font-size: 16px;
+}
+
+.th-about-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.th-about-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 22px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.th-about-button:hover {
+  transform: translateY(-2px);
+}
+
+.th-about-button--primary {
+  color: #ecfeff;
+  background: linear-gradient(135deg, #22c1c3, #0f9f99);
+  box-shadow: 0 18px 34px rgba(15, 118, 110, 0.28);
+}
+
+.th-about-button--primary:hover {
+  color: #ecfeff;
+  box-shadow: 0 24px 42px rgba(15, 118, 110, 0.34);
+}
+
+.th-about-button--secondary {
+  color: var(--th-about-ink);
+  background: rgba(255, 255, 255, 0.46);
+  border-color: rgba(16, 38, 58, 0.12);
+}
+
+.th-about-button--secondary:hover {
+  color: var(--th-about-accent-strong);
+  border-color: rgba(15, 159, 153, 0.26);
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.th-about-hero__visual {
+  display: grid;
+  gap: 18px;
+}
+
+.th-about-media-card {
+  position: relative;
+  min-height: 560px;
+  padding: 14px;
+  border-radius: 34px;
+  overflow: hidden;
+}
+
+.th-about-media-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 532px;
+  object-fit: cover;
+  border-radius: 26px;
+}
+
+.th-about-media-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 14px 14px 14px;
+  height: 48%;
+  border-radius: 0 0 26px 26px;
+  background: linear-gradient(180deg, transparent, rgba(7, 23, 34, 0.55));
+  pointer-events: none;
+}
+
+.th-about-floating-card {
+  position: absolute;
+  display: grid;
+  gap: 6px;
+  max-width: 220px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+  z-index: 2;
+}
+
+.th-about-floating-card--top {
+  top: 34px;
+  left: 34px;
+}
+
+.th-about-floating-card--bottom {
+  right: 34px;
+  bottom: 34px;
+}
+
+.th-about-floating-card__value {
+  color: #000;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.th-about-hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.th-about-metric-card {
+  padding: 22px;
+  border-radius: 24px;
+}
+
+.th-about-metric-card__value,
+.th-about-proof-card__value {
+  display: block;
+  color: var(--th-about-ink);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.th-about-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.th-about-proof-card {
+  padding: 28px 24px;
+  border-radius: 24px;
+  text-align: center;
+}
+
+.th-about-section-head {
+  max-width: 720px;
+  margin-bottom: 22px;
+}
+
+.th-about-section-head--center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.th-about-section-head__title {
+  margin-top: 18px;
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 900;
+  line-height: 1.06;
+}
+
+.th-about-story-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: 20px;
+}
+
+.th-about-panel {
+  border-radius: 28px;
+}
+
+.th-about-panel--story {
+  padding: 32px;
+}
+
+.th-about-story-points {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.th-about-story-point {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  color: #244158;
+  font-weight: 700;
+}
+
+.th-about-story-point i {
+  color: var(--th-about-accent);
+}
+
+.th-about-story-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.th-about-panel--compact {
+  padding: 28px;
+}
+
+.th-about-panel__title {
+  margin-top: 16px;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.th-about-process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.th-about-process-card {
+  padding: 28px;
+  border-radius: 26px;
+}
+
+.th-about-process-card__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(34, 193, 195, 0.22),
+    rgba(94, 143, 163, 0.22)
+  );
+  color: var(--th-about-accent-strong);
+  font-size: 22px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.th-about-process-card__step {
+  margin-top: 18px;
+}
+
+.th-about-process-card__title {
+  margin: 16px 0 12px;
+  color: var(--th-about-ink);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.th-about-tabs {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.th-about-tabs__nav {
+  display: grid;
+  gap: 12px;
+}
+
+.th-about-tab {
+  min-height: 62px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.08);
+  color: var(--th-about-ink);
+  font-weight: 800;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.th-about-tab:hover {
+  transform: translateX(3px);
+  background: linear-gradient(135deg, #3b5865, #0f9f99);
+  color: #fff;
+}
+
+.th-about-tab--active {
+  color: #ecfeff;
+  background: linear-gradient(135deg, #3b5865, #0f9f99);
+  box-shadow: 0 22px 42px rgba(15, 23, 42, 0.18);
+}
+
+.th-about-tabs__content {
+  min-width: 0;
+}
+
+.th-about-tab-panel {
+  padding: 32px;
+  border-radius: 30px;
+}
+
+.th-about-tab-panel--active {
+  display: block;
+}
+
+.th-about-tab-panel__title {
+  margin-top: 18px;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 900;
+  line-height: 1.08;
+  max-width: 720px;
+}
+
+.th-about-tab-panel__text {
+  margin-top: 16px;
+  max-width: 760px;
+}
+
+.th-about-service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.th-about-service-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.44);
+}
+
+.th-about-service-card strong {
+  color: var(--th-about-ink);
+  font-size: 18px;
+}
+
+.th-about-lab-grid,
+.th-about-team-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.th-about-lab-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.th-about-lab-card {
+  position: relative;
+  min-height: 340px;
+  overflow: hidden;
+  border-radius: 30px;
+  box-shadow: 0 24px 58px rgba(15, 23, 42, 0.16);
+}
+
+.th-about-lab-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.th-about-lab-card:hover .th-about-lab-card__image {
+  transform: scale(1.04);
+}
+
+.th-about-lab-card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 28px;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 16, 25, 0.06),
+    rgba(5, 16, 25, 0.78)
+  );
+}
+
+.th-about-lab-card__tag {
+  color: #f0fdff;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.th-about-lab-card__title {
+  margin: 0;
+  color: #f7fbfd;
+  font-size: 30px;
+  line-height: 1.12;
+  font-weight: 800;
+  max-width: 420px;
+}
+
+.th-about-team-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.th-about-doctor-card {
+  padding: 14px;
+  border-radius: 28px;
+}
+
+.th-about-doctor-card__media {
+  overflow: hidden;
+  border-radius: 22px;
+}
+
+.th-about-doctor-card__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 4.8;
+  object-fit: cover;
+}
+
+.th-about-doctor-card__body {
+  padding: 20px 10px 10px;
+  text-align: center;
+}
+
+.th-about-doctor-card__name {
+  margin: 0;
+  color: var(--th-about-ink);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.th-about-doctor-card__role {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.th-about-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px;
+  border-radius: 32px;
+}
+
+.th-about-cta-card__content {
+  max-width: 700px;
+}
+
+.th-about-cta-card__title {
+  margin-top: 18px;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 900;
+  line-height: 1.08;
+}
+
+.th-about-cta-card__text {
+  margin-top: 16px;
+  max-width: 620px;
+}
+
+.th-about-cta-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+@media (max-width: 1199px) {
+  .th-about-hero__shell,
+  .th-about-story-grid,
+  .th-about-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .th-about-hero__visual {
+    max-width: 760px;
+  }
+
+  .th-about-proof-grid,
+  .th-about-process-grid,
+  .th-about-team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .th-about-service-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .th-about-cta-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 767px) {
+  .th-about-page {
+    padding-top: 24px;
+  }
+
+  .th-about-wrap {
+    width: calc(100% - 24px);
+  }
+
+  .th-about-hero__content,
+  .th-about-panel--story,
+  .th-about-panel--compact,
+  .th-about-process-card,
+  .th-about-tab-panel,
+  .th-about-cta-card,
+  .th-about-proof-card {
+    padding: 24px;
+  }
+
+  .th-about-media-card {
+    min-height: 420px;
+    padding: 10px;
+    border-radius: 26px;
+  }
+
+  .th-about-media-card__image {
+    min-height: 400px;
+    border-radius: 20px;
+  }
+
+  .th-about-floating-card {
+    max-width: 190px;
+    padding: 12px;
+  }
+
+  .th-about-floating-card--top {
+    top: 24px;
+    left: 24px;
+  }
+
+  .th-about-floating-card--bottom {
+    right: 24px;
+    bottom: 24px;
+  }
+
+  .th-about-hero-metrics,
+  .th-about-proof-grid,
+  .th-about-process-grid,
+  .th-about-lab-grid,
+  .th-about-team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .th-about-tab {
+    min-height: 56px;
+  }
+
+  .th-about-lab-card,
+  .th-about-lab-card__image {
+    min-height: 280px;
+  }
+
+  .th-about-lab-card__title {
+    font-size: 24px;
+  }
+
+  .th-about-action-row,
+  .th-about-cta-card__actions {
+    width: 100%;
+  }
+
+  .th-about-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .th-about-title {
+    font-size: 34px;
+  }
+
+  .th-about-section-head__title,
+  .th-about-tab-panel__title,
+  .th-about-cta-card__title {
+    font-size: 28px;
+  }
+
+  .th-about-process-card__title,
+  .th-about-doctor-card__name {
+    font-size: 22px;
+  }
+
+  .th-about-floating-card {
+    position: static;
+    max-width: none;
+    margin-top: 12px;
+  }
+
+  .th-about-media-card::after {
+    inset: auto 10px 10px 10px;
+  }
+}

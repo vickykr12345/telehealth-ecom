@@ -25,6 +25,12 @@ function auth_current_user() {
     }
 
     $user = $_SESSION['user'];
+    if (!isset($user['account_status']) || $user['account_status'] === '') {
+        $user['account_status'] = 'active';
+    }
+    if (!array_key_exists('last_login_at', $user)) {
+        $user['last_login_at'] = null;
+    }
     $user['is_admin'] = auth_is_admin($user);
     return $user;
 }
@@ -42,6 +48,8 @@ function auth_login(array $userRow) {
         'first_name' => (string)$userRow['first_name'],
         'last_name' => (string)$userRow['last_name'],
         'email' => (string)$userRow['email'],
+        'account_status' => isset($userRow['account_status']) && trim((string)$userRow['account_status']) !== '' ? (string)$userRow['account_status'] : 'active',
+        'last_login_at' => $userRow['last_login_at'] ?? null,
         'is_admin' => auth_is_admin($userRow),
     ];
 }
@@ -58,9 +66,23 @@ function ensure_users_table() {
         last_name VARCHAR(100) NOT NULL,
         email VARCHAR(255) NOT NULL UNIQUE,
         password_hash VARCHAR(255) NOT NULL,
+        account_status VARCHAR(30) NOT NULL DEFAULT 'active',
+        last_login_at DATETIME NULL DEFAULT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
     $conn->query($sql);
+
+    $columnsToEnsure = [
+        'account_status' => "ALTER TABLE users ADD COLUMN account_status VARCHAR(30) NOT NULL DEFAULT 'active' AFTER password_hash",
+        'last_login_at' => "ALTER TABLE users ADD COLUMN last_login_at DATETIME NULL DEFAULT NULL AFTER account_status",
+    ];
+
+    foreach ($columnsToEnsure as $column => $alterSql) {
+        $check = $conn->query("SHOW COLUMNS FROM users LIKE '" . sanitizeInput($column) . "'");
+        if ($check && $check->num_rows === 0) {
+            $conn->query($alterSql);
+        }
+    }
 }
 
 function ensure_appointments_table() {

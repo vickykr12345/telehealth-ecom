@@ -4,7 +4,7 @@
             <div class="th-footer__top">
             <div class="th-footer__brand">
                 <a href="index.php" class="th-footer__logo" aria-label="Tele-Health Home">
-                    <img src="images/Logo.png" alt="Tele-Health Logo">
+                    <img src="images/Logo.webp" alt="Tele-Health Logo">
                 </a>
                 <p class="th-footer__desc">
                     Modern tele-health and medical ecommerce experience with a clean, trustworthy design.

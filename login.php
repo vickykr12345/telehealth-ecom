@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = (string)($_POST['password'] ?? '');
 
     if ($email !== '' && $password !== '') {
-        $stmt = $conn->prepare("SELECT id, first_name, last_name, email, password_hash FROM users WHERE email = ? LIMIT 1");
+        $stmt = $conn->prepare("SELECT id, first_name, last_name, email, password_hash, account_status, last_login_at FROM users WHERE email = ? LIMIT 1");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $res = $stmt->get_result();
@@ -17,6 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
 
         if ($user && password_verify($password, $user['password_hash'])) {
+            $accountStatus = strtolower(trim((string)($user['account_status'] ?? 'active')));
+            if ($accountStatus === 'suspended') {
+                header('Location: login.php?suspended=1&next=' . urlencode($next));
+                exit();
+            }
+
+            $now = date('Y-m-d H:i:s');
+            $stmtUpdate = $conn->prepare("UPDATE users SET last_login_at = ? WHERE id = ?");
+            $stmtUpdate->bind_param("si", $now, $user['id']);
+            $stmtUpdate->execute();
+            $stmtUpdate->close();
+            $user['last_login_at'] = $now;
+
             auth_login($user);
             header('Location: ' . $next . (str_contains($next, '?') ? '&' : '?') . 'login=success');
             exit();
@@ -86,6 +99,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         window.thShowToast({
           title: "Login failed",
           message: "Incorrect email or password. Please try again.",
+          type: "error"
+        });
+      }
+    </script>
+    <?php endif; ?>
+    <?php if (isset($_GET['suspended']) && $_GET['suspended'] === '1'): ?>
+    <script>
+      if (typeof window.thShowToast === "function") {
+        window.thShowToast({
+          title: "Account suspended",
+          message: "This account is suspended. Please contact the admin.",
           type: "error"
         });
       }

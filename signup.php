@@ -14,14 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($first !== '' && $last !== '' && $email !== '' && $pass !== '' && $pass === $confirm) {
         $hash = password_hash($pass, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, password_hash) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $first, $last, $email, $hash);
+        $accountStatus = 'active';
+        $lastLoginAt = date('Y-m-d H:i:s');
+        $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, password_hash, account_status, last_login_at) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $first, $last, $email, $hash, $accountStatus, $lastLoginAt);
         $ok = $stmt->execute();
         $stmt->close();
 
         if ($ok) {
             // auto-login
-            $user = ['id' => $conn->insert_id, 'first_name' => $first, 'last_name' => $last, 'email' => $email];
+            $user = ['id' => $conn->insert_id, 'first_name' => $first, 'last_name' => $last, 'email' => $email, 'account_status' => $accountStatus, 'last_login_at' => $lastLoginAt];
             auth_login($user);
             header('Location: ' . $next . (str_contains($next, '?') ? '&' : '?') . 'signup=success');
             exit();

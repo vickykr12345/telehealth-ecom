@@ -88,7 +88,7 @@
 
                     <div class="hero-image">
 
-                        <img src="images/banner.jpg" alt="Doctor Telehealth">
+                        <img src="images/banner.webp" alt="Doctor Telehealth">
 
                         <!-- floating card 1 -->
                         <div class="floating-card card1">
@@ -102,7 +102,7 @@
 
                         <!-- floating card 3 -->
                         <div class="doctor-card">
-                            <img src="images/doctor.png" alt="Doctor">
+                            <img src="images/doctor.webp" alt="Doctor">
                             <div class="doctor-info">
                                 <h6>Dr. Sarah Wilson</h6>
                                 <span class="rating">⭐ 4.9 Rating</span><br>
@@ -131,7 +131,7 @@
                 <div class="col-lg-6">
 
                     <div class="about-image">
-                        <img src="images/about-team.png" alt="Dental Team">
+                        <img src="images/about-team.webp" alt="Dental Team">
                     </div>
 
                     <div class="emergency-card">
@@ -229,7 +229,7 @@
                         <div class="col-md-6 text-center">
 
                             <div class="services-image">
-                                <img src="images/service-doctor.jpg" alt="Doctor">
+                                <img src="images/service-doctor.webp" alt="Doctor">
 
                                 <div class="doctor-badge">
                                     Trusted Specialist
@@ -333,7 +333,7 @@
                 <div class="promo-banners">
 
                     <div class="promo-banner">
-                        <img src="images/promo1.png">
+                        <img src="images/promo1.webp">
                         <div class="promo-content">
                             <h4>50% off in all products</h4>
                             <a href="shop.php">Shop Now</a>
@@ -341,7 +341,7 @@
                     </div>
 
                     <div class="promo-banner">
-                        <img src="images/promo2.jpg">
+                        <img src="images/promo2.webp">
                         <div class="promo-content another-content">
                             <h4>28% off in all products</h4>
                             <a href="shop.php">Shop Now</a>
@@ -470,7 +470,7 @@
                 </div>
 
                 <div class="trust-card image">
-                    <img src="images/team.jpg">
+                    <img src="images/team.webp">
                 </div>
 
                 <div class="trust-card stat">
@@ -479,7 +479,7 @@
                 </div>
 
                 <div class="trust-card image">
-                    <img src="images/patient.jpg">
+                    <img src="images/patient.webp">
                 </div>
 
                 <div class="trust-card stat">
@@ -488,7 +488,7 @@
                 </div>
 
                 <div class="trust-card image">
-                    <img src="images/doctors.jpg">
+                    <img src="images/doctors.webp">
                 </div>
 
             </div>
@@ -514,7 +514,7 @@
 
                             <div class="th-content">
                                 <div class="th-user">
-                                    <img src="images/patient.jpg" alt="Sarah Johnson">
+                                    <img src="images/patient.webp" alt="Sarah Johnson">
                                     <div class="th-user__meta">
                                         <h4>Sarah Johnson</h4>
                                         <div class="th-user__line">
@@ -534,7 +534,7 @@
 
                         <div class="th-image">
                             <div class="th-image__frame">
-                                <img src="images/doctor-consultation.jpg" alt="Online doctor consultation">
+                                <img src="images/doctor-consultation.webp" alt="Online doctor consultation">
                             </div>
                         </div>
                     </div>
@@ -548,7 +548,7 @@
 
                             <div class="th-content">
                                 <div class="th-user">
-                                    <img src="images/doctors.jpg" alt="Dr. Michael Lee">
+                                    <img src="images/doctors.webp" alt="Dr. Michael Lee">
                                     <div class="th-user__meta">
                                         <h4>Dr. Michael Lee</h4>
                                         <div class="th-user__line">
@@ -568,7 +568,7 @@
 
                         <div class="th-image">
                             <div class="th-image__frame">
-                                <img src="images/service-doctor.jpg" alt="Doctor supporting a patient">
+                                <img src="images/service-doctor.webp" alt="Doctor supporting a patient">
                             </div>
                         </div>
                     </div>
@@ -582,7 +582,7 @@
 
                             <div class="th-content">
                                 <div class="th-user">
-                                    <img src="images/team.jpg" alt="Emily Rodriguez">
+                                    <img src="images/team.webp" alt="Emily Rodriguez">
                                     <div class="th-user__meta">
                                         <h4>Emily Rodriguez</h4>
                                         <div class="th-user__line">
@@ -602,7 +602,7 @@
 
                         <div class="th-image">
                             <div class="th-image__frame">
-                                <img src="images/about-team.png" alt="Telehealth care team">
+                                <img src="images/about-team.webp" alt="Telehealth care team">
                             </div>
                         </div>
                     </div>
@@ -619,7 +619,7 @@
             <div class="row align-items-center">
 
                 <div class="col-lg-6">
-                    <img src="images/doctor-consultation.jpg" class="img-fluid consultation-img">
+                    <img src="images/doctor-consultation.webp" class="img-fluid consultation-img">
                 </div>
 
 

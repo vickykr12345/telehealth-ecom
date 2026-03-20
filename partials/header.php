@@ -15,7 +15,7 @@ $__user = auth_current_user();
     <nav class="navbar navbar-expand-lg th-navbar">
         <div class="container">
             <a class="navbar-brand th-brand" href="index.php" aria-label="Tele-Health Home">
-                <img src="images/Logo.png" alt="Tele-Health Logo">
+                <img src="images/Logo.webp" alt="Tele-Health Logo">
             </a>
 
             <button class="navbar-toggler th-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#thNav"
