@@ -205,3 +205,107 @@ TRUST SECTION RESPONSIVE
     padding: 40px 30px;
   }
 }
+
+/* ===============================
+PRODUCT SECTION RESPONSIVE
+================================ */
+
+@media (max-width: 991px) {
+  .products-bottom {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .promo-banners {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .promo-banner {
+    min-height: 240px;
+  }
+
+  .promo-content,
+  .promo-content.another-content {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    top: auto;
+    width: auto;
+  }
+
+  .promo-content h4 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    line-height: 1.15;
+  }
+
+  .product-list {
+    gap: 16px;
+  }
+
+  .list-item {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .products-bottom {
+    gap: 18px;
+  }
+
+  .promo-banners {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .promo-banner {
+    min-height: 220px;
+  }
+
+  .promo-content,
+  .promo-content.another-content {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    width: auto;
+  }
+
+  .promo-content h4 {
+    max-width: 220px;
+    font-size: 22px;
+  }
+
+  .list-item {
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .list-item img {
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+  }
+
+  .list-item h6 {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .list-item span {
+    font-size: 16px;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .th-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .th-grid {
+    grid-template-columns: 1fr;
+  }
+}

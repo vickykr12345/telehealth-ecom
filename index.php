@@ -30,7 +30,7 @@
 </head>
 
 <body>
-    <?php include 'partials/header.php'; ?>
+    <?php include __DIR__ . '/partials/header.php'; ?>
 
     <!-- hero section -->
     <section class="hero">
@@ -342,7 +342,7 @@
 
                     <div class="promo-banner">
                         <img src="images/promo2.jpg">
-                        <div class="promo-content aonther-content">
+                        <div class="promo-content another-content">
                             <h4>28% off in all products</h4>
                             <a href="shop.php">Shop Now</a>
                         </div>
@@ -376,7 +376,7 @@
                 <div class="quick-info">
 
                     <div class="quick-rating">
-                        <span id="quickStars"></span>
+                        <span id="quickStars" class="text-warning"></span>
                         <span class="review-text">( <span id="quickReviews"></span> Reviews )</span>
                     </div>
 
@@ -389,16 +389,16 @@
 
                     <p id="quickDesc"></p>
 
-                    <div class="quick-actions">
+                    <!-- <div class="quick-actions">
                         <a href="#" class="add-wishlist" data-id="${product.id}">
                             <i class="fa-regular fa-heart"></i> Add to Wishlist
                         </a>
 
-                    </div>
+                    </div> -->
 
 
 
-                    <a id="viewDetails" class="view-details" href="checkout.php">View Details</a>
+                    <a id="viewDetails" class="view-details text-success text-decoration-underline" href="checkout.php">View Details</a>
 
                 </div>
 
@@ -497,192 +497,118 @@
 
     </section>
 
-    <!-- client feedback section -->
-    <section class="client-feedback">
+    <!-- client testimonials -->
+    <section class="th-testimonial" id="index-testi" aria-labelledby="thTestimonialTitle">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="feedback-header">
-                        <span class="feedback-badge">What Our Patients Say</span>
-                        <h2>Trusted by Thousands of Happy Patients</h2>
-                        <p>Join our growing community of satisfied patients who have experienced exceptional care</p>
-                    </div>
-                </div>
+            <div class="th-testimonial__intro">
+                <span class="th-testimonial__eyebrow">Patient Stories</span>
+                <h2 id="thTestimonialTitle">Real care experiences from our telehealth community</h2>
             </div>
-            
-            <div class="row feedback-grid">
-                <div class="col-lg-4 col-md-6">
-                    <div class="feedback-card glass-card">
-                        <div class="feedback-quote">
-                            <i class="fa-solid fa-quote-left"></i>
-                            <p>"The telehealth service exceeded my expectations. I was able to consult with a specialist from the comfort of my home, and the follow-up care was excellent."</p>
-                        </div>
-                        <div class="feedback-author">
-                            <div class="author-avatar">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div class="author-info">
-                                <h6>Sarah Johnson</h6>
-                                <span class="author-location">New York, NY</span>
-                                <div class="author-rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
+
+            <div class="th-slider" id="thSlider">
+                <article class="th-slide active">
+                    <div class="th-card">
+                        <div class="th-card__panel">
+                            <span class="th-card__quote th-card__quote--open" aria-hidden="true">&ldquo;</span>
+                            <span class="th-card__quote th-card__quote--close" aria-hidden="true">&rdquo;</span>
+
+                            <div class="th-content">
+                                <div class="th-user">
+                                    <img src="images/patient.jpg" alt="Sarah Johnson">
+                                    <div class="th-user__meta">
+                                        <h4>Sarah Johnson</h4>
+                                        <div class="th-user__line">
+                                            <span>Telehealth Patient</span>
+                                            <span class="th-rating" aria-label="5 out of 5 stars">★★★★★</span>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <p>
+                                    When I needed a doctor quickly, the consultation felt smooth, personal, and
+                                    reassuring. I got the right guidance from home without the stress of visiting a
+                                    clinic.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="th-image">
+                            <div class="th-image__frame">
+                                <img src="images/doctor-consultation.jpg" alt="Online doctor consultation">
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="feedback-card glass-card">
-                        <div class="feedback-quote">
-                            <i class="fa-solid fa-quote-left"></i>
-                            <p>"As a busy professional, I appreciate the convenience of virtual consultations. The doctors are knowledgeable and the platform is easy to use."</p>
-                        </div>
-                        <div class="feedback-author">
-                            <div class="author-avatar">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div class="author-info">
-                                <h6>Michael Chen</h6>
-                                <span class="author-location">San Francisco, CA</span>
-                                <div class="author-rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
+                </article>
+
+                <article class="th-slide">
+                    <div class="th-card">
+                        <div class="th-card__panel">
+                            <span class="th-card__quote th-card__quote--open" aria-hidden="true">&ldquo;</span>
+                            <span class="th-card__quote th-card__quote--close" aria-hidden="true">&rdquo;</span>
+
+                            <div class="th-content">
+                                <div class="th-user">
+                                    <img src="images/doctors.jpg" alt="Dr. Michael Lee">
+                                    <div class="th-user__meta">
+                                        <h4>Dr. Michael Lee</h4>
+                                        <div class="th-user__line">
+                                            <span>Family Physician</span>
+                                            <span class="th-rating" aria-label="5 out of 5 stars">★★★★★</span>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <p>
+                                    The platform makes follow-up care much easier for patients. Appointments are fast
+                                    to join, records stay organized, and communication stays clear from start to
+                                    finish.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="th-image">
+                            <div class="th-image__frame">
+                                <img src="images/service-doctor.jpg" alt="Doctor supporting a patient">
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="feedback-card glass-card">
-                        <div class="feedback-quote">
-                            <i class="fa-solid fa-quote-left"></i>
-                            <p>"The dental care I received was outstanding. The team was professional, and the results speak for themselves. My smile has never looked better!"</p>
-                        </div>
-                        <div class="feedback-author">
-                            <div class="author-avatar">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div class="author-info">
-                                <h6>Emily Rodriguez</h6>
-                                <span class="author-location">Miami, FL</span>
-                                <div class="author-rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
+                </article>
+
+                <article class="th-slide">
+                    <div class="th-card">
+                        <div class="th-card__panel">
+                            <span class="th-card__quote th-card__quote--open" aria-hidden="true">&ldquo;</span>
+                            <span class="th-card__quote th-card__quote--close" aria-hidden="true">&rdquo;</span>
+
+                            <div class="th-content">
+                                <div class="th-user">
+                                    <img src="images/team.jpg" alt="Emily Rodriguez">
+                                    <div class="th-user__meta">
+                                        <h4>Emily Rodriguez</h4>
+                                        <div class="th-user__line">
+                                            <span>Virtual Care Member</span>
+                                            <span class="th-rating" aria-label="5 out of 5 stars">★★★★★</span>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <p>
+                                    Booking, speaking to a doctor, and getting my next steps all happened in one
+                                    place. It saved time and made the whole healthcare experience feel much more
+                                    comfortable.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="th-image">
+                            <div class="th-image__frame">
+                                <img src="images/about-team.png" alt="Telehealth care team">
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="feedback-card glass-card">
-                        <div class="feedback-quote">
-                            <i class="fa-solid fa-quote-left"></i>
-                            <p>"I was hesitant about online healthcare at first, but this platform changed my mind. The doctors are attentive and genuinely care about your well-being."</p>
-                        </div>
-                        <div class="feedback-author">
-                            <div class="author-avatar">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div class="author-info">
-                                <h6>Robert Thompson</h6>
-                                <span class="author-location">Chicago, IL</span>
-                                <div class="author-rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="feedback-card glass-card">
-                        <div class="feedback-quote">
-                            <i class="fa-solid fa-quote-left"></i>
-                            <p>"The pharmacy delivery service is incredibly convenient. My medications arrive on time, and the customer service is always helpful."</p>
-                        </div>
-                        <div class="feedback-author">
-                            <div class="author-avatar">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div class="author-info">
-                                <h6>Jennifer Lee</h6>
-                                <span class="author-location">Seattle, WA</span>
-                                <div class="author-rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="feedback-card glass-card">
-                        <div class="feedback-quote">
-                            <i class="fa-solid fa-quote-left"></i>
-                            <p>"From the initial consultation to the final results, every step was handled with professionalism and care. I highly recommend this service!"</p>
-                        </div>
-                        <div class="feedback-author">
-                            <div class="author-avatar">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div class="author-info">
-                                <h6>David Wilson</h6>
-                                <span class="author-location">Boston, MA</span>
-                                <div class="author-rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-12">
-                    <div class="feedback-stats">
-                        <div class="stat-item">
-                            <h3>98%</h3>
-                            <p>Patient Satisfaction</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3>500+</h3>
-                            <p>Trusted Doctors</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3>24/7</h3>
-                            <p>Support Available</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3>10k+</h3>
-                            <p>Happy Patients</p>
-                        </div>
-                    </div>
-                </div>
+                </article>
+
+                <div class="th-dots" id="thDots" aria-label="Testimonial navigation"></div>
             </div>
         </div>
     </section>
@@ -752,7 +678,7 @@
         </div>
     </section>
 
-    <?php include 'partials/footer.php'; ?>
+    <?php include __DIR__ . '/partials/footer.php'; ?>
     <!-- custom js -->
     <script src="js/products.js"></script>
     <script src="js/script.js"></script>
@@ -769,6 +695,100 @@
                 if (btn) btn.innerText = "Booking...";
             });
         }
+    </script>
+    <script>
+        (() => {
+            const thSlider = document.getElementById("thSlider");
+            const thDotsContainer = document.getElementById("thDots");
+
+            if (!thSlider || !thDotsContainer) return;
+
+            const thSlides = Array.from(thSlider.querySelectorAll(".th-slide"));
+            if (!thSlides.length) return;
+
+            let thIndex = 0;
+            let thInterval = null;
+            let startX = 0;
+
+            thSlides.forEach((_, i) => {
+                const dot = document.createElement("button");
+                dot.type = "button";
+                dot.className = i === 0 ? "active" : "";
+                dot.setAttribute("aria-label", `Show testimonial ${i + 1}`);
+                dot.addEventListener("click", () => {
+                    thIndex = i;
+                    thShow(thIndex);
+                    thStart();
+                });
+                thDotsContainer.appendChild(dot);
+            });
+
+            const thDots = Array.from(thDotsContainer.querySelectorAll("button"));
+
+            function thShow(i) {
+                thSlides.forEach((slide, idx) => {
+                    const isActive = idx === i;
+                    slide.classList.toggle("active", isActive);
+                    thDots[idx].classList.toggle("active", isActive);
+                    thDots[idx].setAttribute("aria-pressed", isActive ? "true" : "false");
+                });
+            }
+
+            function thNext() {
+                thIndex = (thIndex + 1) % thSlides.length;
+                thShow(thIndex);
+            }
+
+            function thPrev() {
+                thIndex = (thIndex - 1 + thSlides.length) % thSlides.length;
+                thShow(thIndex);
+            }
+
+            function thStop() {
+                if (thInterval) {
+                    clearInterval(thInterval);
+                    thInterval = null;
+                }
+            }
+
+            function thStart() {
+                thStop();
+                thInterval = setInterval(thNext, 4500);
+            }
+
+            thSlider.addEventListener("mouseenter", thStop);
+            thSlider.addEventListener("mouseleave", thStart);
+            thSlider.addEventListener("focusin", thStop);
+            thSlider.addEventListener("focusout", thStart);
+
+            thSlider.addEventListener("touchstart", (event) => {
+                startX = event.touches[0].clientX;
+            }, { passive: true });
+
+            thSlider.addEventListener("touchend", (event) => {
+                const endX = event.changedTouches[0].clientX;
+                const swipeDistance = startX - endX;
+
+                if (swipeDistance > 50) {
+                    thNext();
+                    thStart();
+                } else if (swipeDistance < -50) {
+                    thPrev();
+                    thStart();
+                }
+            }, { passive: true });
+
+            document.addEventListener("visibilitychange", () => {
+                if (document.hidden) {
+                    thStop();
+                } else {
+                    thStart();
+                }
+            });
+
+            thShow(thIndex);
+            thStart();
+        })();
     </script>
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

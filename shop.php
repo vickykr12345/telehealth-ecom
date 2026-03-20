@@ -30,187 +30,91 @@
 </head>
 
 <body>
-    <?php include 'partials/header.php'; ?>
+    <?php include __DIR__ . '/partials/header.php'; ?>
 
     <!-- shop hero section -->
-    <section class="shop-hero">
-        <div class="container">
-            <div class="row align-items-center gy-5">
-                <div class="col-lg-6">
-                    <div class="shop-hero-content">
-                        <span class="hero-badge">Premium Healthcare Products</span>
-                        <h1>Quality Medical Supplies & Equipment</h1>
-                        <p>Discover our curated collection of trusted healthcare products designed to support your wellness journey.</p>
-                        <div class="shop-hero-stats">
-                            <div class="stat-card">
-                                <div class="stat-icon">📦</div>
-                                <h4>1000+</h4>
-                                <p>Products</p>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon">🚚</div>
-                                <h4>Fast</h4>
-                                <p>Shipping</p>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon">🔒</div>
-                                <h4>Secure</h4>
-                                <p>Payments</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="shop-hero-image">
-                        <img src="images/shop-hero.jpg" alt="Medical Products">
-                        <div class="floating-card shop-card1">
-                            🩺 Medical Equipment
-                        </div>
-                        <div class="floating-card shop-card2">
-                            💊 Health Supplements
-                        </div>
-                        <div class="floating-card shop-card3">
-                            🧴 Personal Care
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- shop filters section -->
-    <section class="shop-filters">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="filters-container">
-                        <div class="filter-group">
-                            <label>Category</label>
-                            <select id="categoryFilter" class="form-select">
-                                <option value="all">All Categories</option>
-                                <option value="medical">Medical Equipment</option>
-                                <option value="supplements">Health Supplements</option>
-                                <option value="personal">Personal Care</option>
-                                <option value="diagnostics">Diagnostics</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label>Price Range</label>
-                            <select id="priceFilter" class="form-select">
-                                <option value="all">All Prices</option>
-                                <option value="under50">Under $50</option>
-                                <option value="50-100">$50 - $100</option>
-                                <option value="100-200">$100 - $200</option>
-                                <option value="over200">Over $200</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label>Sort By</label>
-                            <select id="sortFilter" class="form-select">
-                                <option value="featured">Featured</option>
-                                <option value="price-low">Price: Low to High</option>
-                                <option value="price-high">Price: High to Low</option>
-                                <option value="rating">Customer Rating</option>
-                                <option value="newest">Newest Arrivals</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- shop products section -->
-    <section class="shop-products">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-header">
-                        <h2>Our Product Collection</h2>
-                        <p>Explore our carefully selected range of healthcare products</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row" id="productsGrid">
-                <!-- Products will be loaded here via JavaScript -->
-            </div>
-        </div>
-    </section>
+   <section class="th-shop">
+  <div class="container">
+    <div class="row">
 
-    <!-- shop features section -->
-    <section class="shop-features">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card glass-card">
-                        <div class="feature-icon">🔒</div>
-                        <h4>Secure Shopping</h4>
-                        <p>Your health data and payments are protected with bank-level security.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card glass-card">
-                        <div class="feature-icon">🚚</div>
-                        <h4>Fast Delivery</h4>
-                        <p>Get your healthcare essentials delivered quickly and safely.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature-card glass-card">
-                        <div class="feature-icon">💡</div>
-                        <h4>Expert Advice</h4>
-                        <p>Products recommended by healthcare professionals.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      <!-- LEFT -->
+      <div class="col-lg-9">
 
-    <!-- shop newsletter section -->
-    <section class="shop-newsletter">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="newsletter-content">
-                        <h3>Stay Updated</h3>
-                        <p>Subscribe to our newsletter for health tips, product updates, and exclusive offers.</p>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="newsletter-form">
-                        <input type="email" placeholder="Your email address" class="form-control">
-                        <button class="btn btn-primary">Subscribe</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <div class="th-shop-bar">
 
-    <?php include 'partials/footer.php'; ?>
+  <div class="th-left">
+    <p id="thCount">Showing 0 products</p>
+  </div>
+
+  <div class="th-right">
+    <select id="thSort" class="form-select">
+      <option value="default">Default Sorting</option>
+      <option value="low">Low to High</option>
+<option value="high">High to Low</option>
+    </select>
+  </div>
+
+</div>
+
+        <div id="gtaGrid" class="gta-grid"></div>
+        <div id="thPagination" class="th-pagination" aria-label="Shop pagination"></div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="col-lg-3">
+
+        <div class="th-sidebar">
+
+          <div class="th-box">
+            <input type="text" id="thSearch" placeholder="Search..." />
+          </div>
+
+          <div class="th-box">
+            <h5>Price</h5>
+          <div>
+
+
+  <div class="th-price-info">
+    <span>The highest price is <b id="thMaxPrice">$0</b></span>
+    <span class="th-reset" id="thReset">Reset</span>
+  </div>
+
+  <input type="range" id="thPriceRange" min="0" max="100" value="100">
+
+  <div class="th-price-values">
+    <span>From: <b id="thFrom">0</b></span>
+    <span>-</span>
+    <span>To: <b id="thTo">100</b></span>
+  </div>
+
+</div>
+          </div>
+
+          <div class="th-box">
+            <h5>Categories</h5>
+            <ul id="thCategory">
+  <li data-cat="all">All</li>
+  <li data-cat="medical">Medical Equipment</li>
+  <li data-cat="health">Health</li>
+</ul>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <?php include __DIR__ . '/partials/footer.php'; ?>
     
     <!-- custom js -->
-    <script src="js/products.js"></script>
-    <script src="js/script.js"></script>
-    <script>
-        // Initialize shop functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load products when page loads
-            loadProducts();
-            
-            // Add filter functionality
-            const categoryFilter = document.getElementById('categoryFilter');
-            const priceFilter = document.getElementById('priceFilter');
-            const sortFilter = document.getElementById('sortFilter');
-            
-            [categoryFilter, priceFilter, sortFilter].forEach(filter => {
-                filter.addEventListener('change', function() {
-                    loadProducts();
-                });
-            });
-        });
-    </script>
+    <script src="js/th-shop.js"></script>
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
-</html>

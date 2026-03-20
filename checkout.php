@@ -1,6 +1,7 @@
 <?php
-// Include database configuration
-require_once 'config.php';
+require_once __DIR__ . '/auth.php';
+
+$currentUser = auth_current_user();
 
 // Get product ID from URL
 $productId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -35,8 +36,58 @@ if (!$product) {
     exit();
 }
 
+// Prefill checkout details for logged-in users using their latest saved order
+$savedCheckout = [
+    'email' => (string)($currentUser['email'] ?? ''),
+    'phone' => '',
+    'firstName' => (string)($currentUser['first_name'] ?? ''),
+    'lastName' => (string)($currentUser['last_name'] ?? ''),
+    'address1' => '',
+    'address2' => '',
+    'country' => '',
+    'state' => '',
+    'city' => '',
+    'zip' => '',
+];
+
+if ($currentUser && !empty($currentUser['email'])) {
+    $ordersTableCheck = $conn->query("SHOW TABLES LIKE 'orders'");
+    if ($ordersTableCheck && $ordersTableCheck->num_rows > 0) {
+        $stmtPrefill = $conn->prepare("SELECT customer_phone, customer_first_name, customer_last_name, shipping_address1, shipping_address2, shipping_country, shipping_state, shipping_city, shipping_zip FROM orders WHERE customer_email = ? ORDER BY id DESC LIMIT 1");
+        $stmtPrefill->bind_param("s", $currentUser['email']);
+        $stmtPrefill->execute();
+        $resultPrefill = $stmtPrefill->get_result();
+        if ($resultPrefill && ($savedOrder = $resultPrefill->fetch_assoc())) {
+            $savedCheckout['phone'] = (string)($savedOrder['customer_phone'] ?? '');
+            $savedCheckout['firstName'] = (string)($savedOrder['customer_first_name'] ?? $savedCheckout['firstName']);
+            $savedCheckout['lastName'] = (string)($savedOrder['customer_last_name'] ?? $savedCheckout['lastName']);
+            $savedCheckout['address1'] = (string)($savedOrder['shipping_address1'] ?? '');
+            $savedCheckout['address2'] = (string)($savedOrder['shipping_address2'] ?? '');
+            $savedCheckout['country'] = (string)($savedOrder['shipping_country'] ?? '');
+            $savedCheckout['state'] = (string)($savedOrder['shipping_state'] ?? '');
+            $savedCheckout['city'] = (string)($savedOrder['shipping_city'] ?? '');
+            $savedCheckout['zip'] = (string)($savedOrder['shipping_zip'] ?? '');
+        }
+        $stmtPrefill->close();
+    }
+}
+
+// Build product gallery images for the checkout page
+$imagePath = (string)($product['image'] ?? '');
+$imageVariations = isset($product['image_variations']) && is_array($product['image_variations'])
+    ? array_values(array_filter($product['image_variations'], function ($path) {
+        return is_string($path) && trim($path) !== '';
+    }))
+    : [];
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!$currentUser) {
+        $loginNext = 'checkout.php?id=' . $productId;
+        header('Location: login.php?next=' . urlencode($loginNext));
+        exit();
+    }
+
     // Sanitize and validate form data
     $qty = (int)$_POST['qty'];
     $email = sanitizeInput($_POST['email']);
@@ -117,18 +168,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <?php include 'partials/header.php'; ?>
+    <?php include __DIR__ . '/partials/header.php'; ?>
     <section class="checkout">
         <div class="checkout-container">
             <!-- LEFT -->
             <div class="checkout-left">
                 <div class="gallery">
-                    <?php 
-                    // Image path stored relative to project root (e.g. "images/prd-1.png")
-                    $imagePath = $product['image'];
-                    ?>
                     <img id="mainImage" class="main-image" src="<?php echo htmlspecialchars($imagePath); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                    <div id="thumbSlider" class="thumb-slider"></div>
+                    <div id="thumbSlider" class="thumb-slider is-hidden" aria-label="Product image variations"></div>
                 </div>
 
                 <div class="product-tabs">
@@ -163,40 +210,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <h5>Customer Information</h5>
-                <input id="email" name="email" placeholder="Email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
-                <input id="phone" name="phone" placeholder="Phone" value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>">
+                <input id="email" name="email" placeholder="Email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : htmlspecialchars($savedCheckout['email']); ?>">
+                <input id="phone" name="phone" placeholder="Phone" value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : htmlspecialchars($savedCheckout['phone']); ?>">
 
                 <div class="row">
-                    <input id="firstName" name="firstName" placeholder="First Name" value="<?php echo isset($_POST['firstName']) ? htmlspecialchars($_POST['firstName']) : ''; ?>">
-                    <input id="lastName" name="lastName" placeholder="Last Name" value="<?php echo isset($_POST['lastName']) ? htmlspecialchars($_POST['lastName']) : ''; ?>">
+                    <input id="firstName" name="firstName" placeholder="First Name" value="<?php echo isset($_POST['firstName']) ? htmlspecialchars($_POST['firstName']) : htmlspecialchars($savedCheckout['firstName']); ?>">
+                    <input id="lastName" name="lastName" placeholder="Last Name" value="<?php echo isset($_POST['lastName']) ? htmlspecialchars($_POST['lastName']) : htmlspecialchars($savedCheckout['lastName']); ?>">
                 </div>
 
                 <h5>Shipping Information</h5>
-                <input id="address1" name="address1" placeholder="Address Line 1" value="<?php echo isset($_POST['address1']) ? htmlspecialchars($_POST['address1']) : ''; ?>">
-                <input id="address2" name="address2" placeholder="Address Line 2" value="<?php echo isset($_POST['address2']) ? htmlspecialchars($_POST['address2']) : ''; ?>">
+                <input id="address1" name="address1" placeholder="Address Line 1" value="<?php echo isset($_POST['address1']) ? htmlspecialchars($_POST['address1']) : htmlspecialchars($savedCheckout['address1']); ?>">
+                <input id="address2" name="address2" placeholder="Address Line 2" value="<?php echo isset($_POST['address2']) ? htmlspecialchars($_POST['address2']) : htmlspecialchars($savedCheckout['address2']); ?>">
 
                 <select id="country" name="country">
                     <option value="">Select Country</option>
-                    <option value="USA" <?php echo (isset($_POST['country']) && $_POST['country'] == 'USA') ? 'selected' : ''; ?>>United States</option>
-                    <option value="UK" <?php echo (isset($_POST['country']) && $_POST['country'] == 'UK') ? 'selected' : ''; ?>>United Kingdom</option>
-                    <option value="Canada" <?php echo (isset($_POST['country']) && $_POST['country'] == 'Canada') ? 'selected' : ''; ?>>Canada</option>
-                    <option value="Australia" <?php echo (isset($_POST['country']) && $_POST['country'] == 'Australia') ? 'selected' : ''; ?>>Australia</option>
-                    <option value="Germany" <?php echo (isset($_POST['country']) && $_POST['country'] == 'Germany') ? 'selected' : ''; ?>>Germany</option>
-                    <option value="France" <?php echo (isset($_POST['country']) && $_POST['country'] == 'France') ? 'selected' : ''; ?>>France</option>
-                    <option value="India" <?php echo (isset($_POST['country']) && $_POST['country'] == 'India') ? 'selected' : ''; ?>>India</option>
+                    <option value="USA" <?php echo ((isset($_POST['country']) ? $_POST['country'] : $savedCheckout['country']) == 'USA') ? 'selected' : ''; ?>>United States</option>
+                    <option value="UK" <?php echo ((isset($_POST['country']) ? $_POST['country'] : $savedCheckout['country']) == 'UK') ? 'selected' : ''; ?>>United Kingdom</option>
+                    <option value="Canada" <?php echo ((isset($_POST['country']) ? $_POST['country'] : $savedCheckout['country']) == 'Canada') ? 'selected' : ''; ?>>Canada</option>
+                    <option value="Australia" <?php echo ((isset($_POST['country']) ? $_POST['country'] : $savedCheckout['country']) == 'Australia') ? 'selected' : ''; ?>>Australia</option>
+                    <option value="Germany" <?php echo ((isset($_POST['country']) ? $_POST['country'] : $savedCheckout['country']) == 'Germany') ? 'selected' : ''; ?>>Germany</option>
+                    <option value="France" <?php echo ((isset($_POST['country']) ? $_POST['country'] : $savedCheckout['country']) == 'France') ? 'selected' : ''; ?>>France</option>
+                    <option value="India" <?php echo ((isset($_POST['country']) ? $_POST['country'] : $savedCheckout['country']) == 'India') ? 'selected' : ''; ?>>India</option>
                 </select>
                 <select id="state" name="state">
                     <option value="">Select State</option>
-                    <option value="CA" <?php echo (isset($_POST['state']) && $_POST['state'] == 'CA') ? 'selected' : ''; ?>>California</option>
-                    <option value="NY" <?php echo (isset($_POST['state']) && $_POST['state'] == 'NY') ? 'selected' : ''; ?>>New York</option>
-                    <option value="TX" <?php echo (isset($_POST['state']) && $_POST['state'] == 'TX') ? 'selected' : ''; ?>>Texas</option>
-                    <option value="FL" <?php echo (isset($_POST['state']) && $_POST['state'] == 'FL') ? 'selected' : ''; ?>>Florida</option>
-                    <option value="WA" <?php echo (isset($_POST['state']) && $_POST['state'] == 'WA') ? 'selected' : ''; ?>>Washington</option>
+                    <option value="CA" <?php echo ((isset($_POST['state']) ? $_POST['state'] : $savedCheckout['state']) == 'CA') ? 'selected' : ''; ?>>California</option>
+                    <option value="NY" <?php echo ((isset($_POST['state']) ? $_POST['state'] : $savedCheckout['state']) == 'NY') ? 'selected' : ''; ?>>New York</option>
+                    <option value="TX" <?php echo ((isset($_POST['state']) ? $_POST['state'] : $savedCheckout['state']) == 'TX') ? 'selected' : ''; ?>>Texas</option>
+                    <option value="FL" <?php echo ((isset($_POST['state']) ? $_POST['state'] : $savedCheckout['state']) == 'FL') ? 'selected' : ''; ?>>Florida</option>
+                    <option value="WA" <?php echo ((isset($_POST['state']) ? $_POST['state'] : $savedCheckout['state']) == 'WA') ? 'selected' : ''; ?>>Washington</option>
                 </select>
 
                 <div class="row">
-                    <input id="city" name="city" placeholder="City" value="<?php echo isset($_POST['city']) ? htmlspecialchars($_POST['city']) : ''; ?>">
-                    <input id="zip" name="zip" placeholder="Zip Code" value="<?php echo isset($_POST['zip']) ? htmlspecialchars($_POST['zip']) : ''; ?>">
+                    <input id="city" name="city" placeholder="City" value="<?php echo isset($_POST['city']) ? htmlspecialchars($_POST['city']) : htmlspecialchars($savedCheckout['city']); ?>">
+                    <input id="zip" name="zip" placeholder="Zip Code" value="<?php echo isset($_POST['zip']) ? htmlspecialchars($_POST['zip']) : htmlspecialchars($savedCheckout['zip']); ?>">
                 </div>
 
                 <h5>Payment</h5>
@@ -240,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </section>
 
-    <?php include 'partials/footer.php'; ?>
+    <?php include __DIR__ . '/partials/footer.php'; ?>
 
     <!-- Hidden form for submission -->
     <form id="checkoutForm" method="POST" style="display: none;">
@@ -265,12 +312,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Pass PHP data to JavaScript
     window.productData = {
         id: <?php echo $product['id']; ?>,
-        name: "<?php echo addslashes($product['name']); ?>",
-        price: "<?php echo addslashes($product['price']); ?>",
-        old_price: "<?php echo addslashes($product['old_price']); ?>",
-        image: "<?php echo addslashes($imagePath); ?>",
-        description: "<?php echo addslashes($product['description']); ?>"
+        name: <?php echo json_encode((string)$product['name']); ?>,
+        price: <?php echo json_encode((string)$product['price']); ?>,
+        old_price: <?php echo json_encode((string)($product['old_price'] ?? '')); ?>,
+        image: <?php echo json_encode($imagePath); ?>,
+        image_variations: <?php echo json_encode($imageVariations); ?>,
+        description: <?php echo json_encode((string)$product['description']); ?>
     };
+
+        window.checkoutAuth = {
+            isLoggedIn: <?php echo $currentUser ? 'true' : 'false'; ?>,
+            loginUrl: "login.php?next=<?php echo rawurlencode('checkout.php?id=' . $productId); ?>"
+        };
         
         // Pass related products data
         window.relatedProducts = <?php 
@@ -281,6 +334,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(array_slice($related, 0, 3));
         ?>;
     </script>
+    <script src="js/script.js"></script>
     <script src="js/checkout.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once __DIR__ . '/config.php';
 
 $oid = isset($_GET['oid']) ? (int)$_GET['oid'] : 0;
 $order = null;
@@ -67,7 +67,7 @@ $placed = isset($_GET['placed']) && $_GET['placed'] === '1';
     </style>
 </head>
 <body>
-    <?php include 'partials/header.php'; ?>
+    <?php include __DIR__ . '/partials/header.php'; ?>
 
     <section class="ty-wrap">
         <div class="container">
@@ -95,7 +95,7 @@ $placed = isset($_GET['placed']) && $_GET['placed'] === '1';
         </div>
     </section>
 
-    <?php include 'partials/footer.php'; ?>
+    <?php include __DIR__ . '/partials/footer.php'; ?>
 
     <script src="js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

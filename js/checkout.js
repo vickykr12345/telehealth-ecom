@@ -14,6 +14,8 @@
     termsError: document.getElementById("termsError"),
     checkoutForm: document.getElementById("checkoutForm"),
     cardType: document.getElementById("cardType"),
+    mainImage: document.getElementById("mainImage"),
+    thumbSlider: document.getElementById("thumbSlider"),
   };
 
   const fieldIds = [
@@ -154,6 +156,72 @@
     if (els.summaryQty) els.summaryQty.textContent = String(qty);
     if (els.totalPrice) els.totalPrice.textContent = display;
     if (els.summaryAmount) els.summaryAmount.textContent = display;
+  }
+
+  function getGalleryImages() {
+    if (!product) return [];
+
+    const rawImages = [product.image].concat(
+      Array.isArray(product.image_variations) ? product.image_variations : [],
+    );
+
+    return rawImages.filter((image, index, items) => {
+      const value = (image || "").toString().trim();
+      return value !== "" && items.indexOf(image) === index;
+    });
+  }
+
+  function setActiveGalleryImage(imagePath) {
+    if (els.mainImage) {
+      els.mainImage.src = imagePath;
+      els.mainImage.alt = product && product.name ? product.name : "Product image";
+    }
+
+    if (!els.thumbSlider) return;
+    els.thumbSlider.querySelectorAll(".thumb-slider__item").forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.image === imagePath);
+    });
+  }
+
+  function renderGallery() {
+    const galleryImages = getGalleryImages();
+
+    if (els.mainImage && galleryImages.length > 0) {
+      els.mainImage.src = galleryImages[0];
+      els.mainImage.alt = product && product.name ? product.name : "Product image";
+    }
+
+    if (!els.thumbSlider) return;
+
+    if (galleryImages.length <= 1) {
+      els.thumbSlider.innerHTML = "";
+      els.thumbSlider.classList.add("is-hidden");
+      return;
+    }
+
+    els.thumbSlider.classList.remove("is-hidden");
+    els.thumbSlider.innerHTML = "";
+
+    galleryImages.forEach((imagePath, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "thumb-slider__item";
+      button.dataset.image = imagePath;
+      button.setAttribute(
+        "aria-label",
+        `Show product image ${index + 1}`,
+      );
+
+      const image = document.createElement("img");
+      image.src = imagePath;
+      image.alt = product && product.name ? product.name : "Product thumbnail";
+
+      button.appendChild(image);
+      button.addEventListener("click", () => setActiveGalleryImage(imagePath));
+      els.thumbSlider.appendChild(button);
+    });
+
+    setActiveGalleryImage(galleryImages[0]);
   }
 
   function validateAll() {
@@ -374,8 +442,8 @@
   }
 
   async function loadProductsJson() {
-    const res = await fetch("js/products.json");
-    if (!res.ok) throw new Error("Failed to load products.json");
+    const res = await fetch("products-feed.php");
+    if (!res.ok) throw new Error("Failed to load products feed");
     return res.json();
   }
 
@@ -428,6 +496,23 @@
 
     els.checkoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
+      if (window.checkoutAuth && !window.checkoutAuth.isLoggedIn) {
+        if (typeof window.thShowToast === "function") {
+          window.thShowToast({
+            title: "Login required",
+            message:
+              "You have to log in or create your account before purchasing this product.",
+            type: "error",
+            timeout: 2800,
+          });
+        }
+
+        window.setTimeout(() => {
+          window.location.href = window.checkoutAuth.loginUrl;
+        }, 1200);
+        return;
+      }
+
       const ok = validateAll();
       if (!ok) {
         if (typeof window.thShowToast === "function") {
@@ -470,6 +555,7 @@
       }
     }
 
+    renderGallery();
     updateSummary();
     wireTabs();
     wireQuantity();

@@ -2,12 +2,15 @@
 require_once __DIR__ . '/auth.php';
 ensure_users_table();
 
+$next = isset($_GET['next']) ? $_GET['next'] : 'profile.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $first = trim($_POST['first_name'] ?? '');
     $last = trim($_POST['last_name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $pass = (string)($_POST['password'] ?? '');
     $confirm = (string)($_POST['confirm_password'] ?? '');
+    $next = trim($_POST['next'] ?? $next);
 
     if ($first !== '' && $last !== '' && $email !== '' && $pass !== '' && $pass === $confirm) {
         $hash = password_hash($pass, PASSWORD_DEFAULT);
@@ -20,12 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // auto-login
             $user = ['id' => $conn->insert_id, 'first_name' => $first, 'last_name' => $last, 'email' => $email];
             auth_login($user);
-            header('Location: profile.php?signup=success');
+            header('Location: ' . $next . (str_contains($next, '?') ? '&' : '?') . 'signup=success');
             exit();
         }
     }
 
-    header('Location: signup.php?error=1');
+    header('Location: signup.php?error=1&next=' . urlencode($next));
     exit();
 }
 ?>
@@ -44,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <?php include 'partials/header.php'; ?>
+    <?php include __DIR__ . '/partials/header.php'; ?>
 
     <section class="auth">
         <div class="container">
@@ -83,17 +86,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <button class="auth-btn" type="submit">Create account</button>
+                    <input type="hidden" name="next" value="<?php echo htmlspecialchars($next); ?>">
 
                     <div class="auth-foot">
                         <span>Already have an account?</span>
-                        <a href="login.php">Sign in</a>
+                        <a href="login.php?next=<?php echo urlencode($next); ?>">Sign in</a>
                     </div>
                 </form>
             </div>
         </div>
     </section>
 
-    <?php include 'partials/footer.php'; ?>
+    <?php include __DIR__ . '/partials/footer.php'; ?>
 
     <script src="js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

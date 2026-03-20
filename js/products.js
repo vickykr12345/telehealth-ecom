@@ -1,4 +1,4 @@
-fetch("js/products.json")
+fetch("products-feed.php")
   .then((res) => res.json())
   .then((data) => {
     const grid = document.getElementById("productsGrid");
@@ -36,8 +36,8 @@ fetch("js/products.json")
       <h4><a href="checkout?id=${product.id}" class="product-name-link">${product.name}</a></h4>
 
       <div class="product-price">
-        <span class="price">${product.price}</span>
-        <span class="old-price">${product.old_price}</span>
+        <span class="price text-success">${product.price}</span>
+        <span class="old-price text-muted">${product.old_price}</span>
       </div>
 
     </div>
@@ -48,12 +48,13 @@ fetch("js/products.json")
 
     /* SIDE PRODUCT LIST */
 
-    list.innerHTML = data.products
-      .slice(6)
+    list.innerHTML = [...data.products]
+      .sort((a, b) => Number(b.id) - Number(a.id))
+      .slice(0, 3)
       .map(
         (product) => `
     
-    <div class="list-item">
+    <a href="checkout?id=${product.id}" class="list-item">
 
       <img src="${product.image}">
 
@@ -62,7 +63,7 @@ fetch("js/products.json")
         <span>${product.price}</span>
       </div>
 
-    </div>
+    </a>
 
     `,
       )
@@ -106,8 +107,7 @@ function openQuickView(product) {
 
   /* view details link */
 
-  document.getElementById("viewDetails").href =
-    "checkout?id=" + product.id;
+  document.getElementById("viewDetails").href = "checkout?id=" + product.id;
 
   // Add smooth transition for view details click
   document.getElementById("viewDetails").onclick = (e) => {
