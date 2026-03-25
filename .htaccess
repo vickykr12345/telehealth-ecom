@@ -8,10 +8,9 @@ RewriteRule ^ - [L]
 # Home
 RewriteRule ^$ index.php [L]
 
-# Keep query strings for these routes
-RewriteRule ^checkout/?$ router.php?path=checkout [QSA,L]
-RewriteRule ^thankyou/?$ router.php?path=thankyou [QSA,L]
+# Direct access to specific PHP files (bypass router for these)
+RewriteRule ^(doctors|profile|checkout|thankyou|terms-new)/?$ $1.php [QSA,L]
 
-# Generic router for all other pretty URLs
+# All other pages go through router for pretty URLs
 RewriteRule ^([A-Za-z0-9-]+)/?$ router.php?path=$1 [QSA,L]
 

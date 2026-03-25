@@ -366,6 +366,7 @@ $stmtA->close();
 $allAppointments = [];
 if ($isAdmin) {
     $resultAllAppointments = $conn->query("SELECT id, name, email, appointment_date, department, status, created_at FROM appointments ORDER BY id DESC LIMIT 100");
+    $resultAllAppointments = $conn->query("SELECT id, name, email, appointment_date, department, status, created_at FROM appointments ORDER BY id DESC LIMIT 100");
     if ($resultAllAppointments) {
         while ($row = $resultAllAppointments->fetch_assoc()) {
             $allAppointments[] = $row;

@@ -11,6 +11,11 @@
   --th-about-radius: 28px;
 }
 
+/* Performance: Reduce blur intensity for better scrolling */
+.th-about-page::before {
+  filter: blur(8px);
+}
+
 .th-about-page {
   position: relative;
   padding: 38px 0 10px;
@@ -45,6 +50,8 @@
 .th-about-wrap {
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
+  /* Performance: Contain layout for children */
+  contain: layout style;
 }
 
 .th-about-hero,
@@ -147,15 +154,22 @@
     rgba(255, 255, 255, 0.72),
     rgba(255, 255, 255, 0.38)
   );
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--th-about-border);
   box-shadow: var(--th-about-shadow);
+
+  /* Performance: Enable GPU acceleration */
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .th-about-hero__content {
   padding: 38px;
   border-radius: var(--th-about-radius);
+
+  /* Performance: Optimize rendering */
+  contain: layout style paint;
 }
 
 .th-about-highlight-list {
@@ -269,11 +283,14 @@
   padding: 14px 16px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.42);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.48);
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
   z-index: 2;
+
+  /* Performance: Reduce animation complexity */
+  animation: none;
 }
 
 .th-about-floating-card--top {
@@ -350,6 +367,9 @@
 
 .th-about-panel {
   border-radius: 28px;
+
+  /* Performance: Optimize rendering */
+  contain: layout style paint;
 }
 
 .th-about-panel--story {
@@ -451,8 +471,8 @@
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.56);
   background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 14px 38px rgba(15, 23, 42, 0.08);
   color: var(--th-about-ink);
   font-weight: 800;
@@ -464,6 +484,9 @@
     background 0.2s ease,
     color 0.2s ease,
     box-shadow 0.2s ease;
+
+  /* Performance: Optimize for scrolling */
+  contain: layout style paint;
 }
 
 .th-about-tab:hover {
@@ -541,6 +564,10 @@
   overflow: hidden;
   border-radius: 30px;
   box-shadow: 0 24px 58px rgba(15, 23, 42, 0.16);
+
+  /* Performance: Optimize for scrolling */
+  contain: layout style paint;
+  will-change: transform;
 }
 
 .th-about-lab-card__image {
@@ -593,6 +620,9 @@
 .th-about-doctor-card {
   padding: 14px;
   border-radius: 28px;
+
+  /* Performance: Optimize rendering */
+  contain: layout style paint;
 }
 
 .th-about-doctor-card__media {
@@ -632,6 +662,9 @@
   gap: 24px;
   padding: 32px;
   border-radius: 32px;
+
+  /* Performance: Optimize rendering */
+  contain: layout style paint;
 }
 
 .th-about-cta-card__content {

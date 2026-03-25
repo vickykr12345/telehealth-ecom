@@ -498,170 +498,122 @@
     </section>
 
     <!-- client testimonials -->
-    <section class="th-testimonial" id="index-testi" aria-labelledby="thTestimonialTitle">
+    <!-- testimonials section -->
+    <section class="testimonials-section-glass reveal">
         <div class="container">
-            <div class="th-testimonial__intro">
-                <span class="th-testimonial__eyebrow">Patient Stories</span>
-                <h2 id="thTestimonialTitle">Real care experiences from our telehealth community</h2>
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title-glass">Patient Experiences</h2>
+                    <p class="section-subtitle-glass">Hear what our patients have to say about our care</p>
+                </div>
             </div>
 
-            <div class="th-slider" id="thSlider">
-                <article class="th-slide active">
-                    <div class="th-card">
-                        <div class="th-card__panel">
-                            <span class="th-card__quote th-card__quote--open" aria-hidden="true">&ldquo;</span>
-                            <span class="th-card__quote th-card__quote--close" aria-hidden="true">&rdquo;</span>
-
-                            <div class="th-content">
-                                <div class="th-user">
-                                    <img src="images/patient.webp" alt="Sarah Johnson">
-                                    <div class="th-user__meta">
-                                        <h4>Sarah Johnson</h4>
-                                        <div class="th-user__line">
-                                            <span>Telehealth Patient</span>
-                                            <span class="th-rating" aria-label="5 out of 5 stars">★★★★★</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <p>
-                                    When I needed a doctor quickly, the consultation felt smooth, personal, and
-                                    reassuring. I got the right guidance from home without the stress of visiting a
-                                    clinic.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="th-image">
-                            <div class="th-image__frame">
-                                <img src="images/doctor-consultation.webp" alt="Online doctor consultation">
+            <div class="testimonials-grid-glass">
+                <div class="testimonial-card-glass">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote-glass">"The consultation was thorough and professional. Dr. Wilson took the time to understand my concerns and provided excellent guidance."</div>
+                        <div class="testimonial-author-glass">
+                            <div class="author-avatar-glass">SJ</div>
+                            <div class="author-info-glass">
+                                <h5>Sarah Johnson</h5>
+                                <div class="author-rating-glass">⭐⭐⭐⭐⭐</div>
                             </div>
                         </div>
                     </div>
-                </article>
+                </div>
 
-                <article class="th-slide">
-                    <div class="th-card">
-                        <div class="th-card__panel">
-                            <span class="th-card__quote th-card__quote--open" aria-hidden="true">&ldquo;</span>
-                            <span class="th-card__quote th-card__quote--close" aria-hidden="true">&rdquo;</span>
-
-                            <div class="th-content">
-                                <div class="th-user">
-                                    <img src="images/doctors.webp" alt="Dr. Michael Lee">
-                                    <div class="th-user__meta">
-                                        <h4>Dr. Michael Lee</h4>
-                                        <div class="th-user__line">
-                                            <span>Family Physician</span>
-                                            <span class="th-rating" aria-label="5 out of 5 stars">★★★★★</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <p>
-                                    The platform makes follow-up care much easier for patients. Appointments are fast
-                                    to join, records stay organized, and communication stays clear from start to
-                                    finish.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="th-image">
-                            <div class="th-image__frame">
-                                <img src="images/service-doctor.webp" alt="Doctor supporting a patient">
+                <div class="testimonial-card-glass">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote-glass">"I was impressed by the level of care and attention to detail. The online consultation made healthcare so convenient."</div>
+                        <div class="testimonial-author-glass">
+                            <div class="author-avatar-glass">ML</div>
+                            <div class="author-info-glass">
+                                <h5>Michael Lee</h5>
+                                <div class="author-rating-glass">⭐⭐⭐⭐⭐</div>
                             </div>
                         </div>
                     </div>
-                </article>
+                </div>
 
-                <article class="th-slide">
-                    <div class="th-card">
-                        <div class="th-card__panel">
-                            <span class="th-card__quote th-card__quote--open" aria-hidden="true">&ldquo;</span>
-                            <span class="th-card__quote th-card__quote--close" aria-hidden="true">&rdquo;</span>
-
-                            <div class="th-content">
-                                <div class="th-user">
-                                    <img src="images/team.webp" alt="Emily Rodriguez">
-                                    <div class="th-user__meta">
-                                        <h4>Emily Rodriguez</h4>
-                                        <div class="th-user__line">
-                                            <span>Virtual Care Member</span>
-                                            <span class="th-rating" aria-label="5 out of 5 stars">★★★★★</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <p>
-                                    Booking, speaking to a doctor, and getting my next steps all happened in one
-                                    place. It saved time and made the whole healthcare experience feel much more
-                                    comfortable.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="th-image">
-                            <div class="th-image__frame">
-                                <img src="images/about-team.webp" alt="Telehealth care team">
+                <div class="testimonial-card-glass">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote-glass">"Dr. Chen's expertise in cardiology is exceptional. He explained everything clearly and made me feel confident about my treatment plan."</div>
+                        <div class="testimonial-author-glass">
+                            <div class="author-avatar-glass">ER</div>
+                            <div class="author-info-glass">
+                                <h5>Emily Rodriguez</h5>
+                                <div class="author-rating-glass">⭐⭐⭐⭐⭐</div>
                             </div>
                         </div>
                     </div>
-                </article>
-
-                <div class="th-dots" id="thDots" aria-label="Testimonial navigation"></div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- book an appointment section -->
-    <section class="appointment-section" id="book-appointment">
+    <section class="appointment-section-glass" id="book-appointment">
         <div class="container">
             <div class="row align-items-center">
 
                 <div class="col-lg-6">
-                    <img src="images/doctor-consultation.webp" class="img-fluid consultation-img">
+                    <img src="images/doctor-consultation.webp" class="img-fluid consultation-img-glass">
                 </div>
 
-
-
                 <div class="col-lg-6">
-                    <h2>Book an Online Consultation</h2>
+                    <h2 class="appointment-title-glass">Book an Online Consultation</h2>
 
-                    <p>
-                        Connect with certified doctors instantly from the comfort of your home.
+                    <p class="appointment-subtitle-glass">
+                        Connect with our certified doctors instantly from the comfort of your home.
                         Get professional healthcare advice and treatment plans.
                     </p>
                     <form action="book-appointment.php" method="POST">
 
-                        <div class="appointment-card">
+                        <div class="appointment-card-glass">
 
                             <div class="row g-3">
 
                                 <div class="col-md-6">
-                                    <input type="text" name="yourname" class="form-control" placeholder="Your Name"
-                                        required>
+                                    <div class="form-group-glass">
+                                        <label class="form-label-glass">Full Name</label>
+                                        <input type="text" name="yourname" class="form-control-glass" placeholder="Enter your full name" required>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <input type="email" name="emailaddress" class="form-control"
-                                        placeholder="Email Address" required>
+                                    <div class="form-group-glass">
+                                        <label class="form-label-glass">Email Address</label>
+                                        <input type="email" name="emailaddress" class="form-control-glass" placeholder="Enter your email" required>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <input type="date" name="appointmentdate" class="form-control" required>
+                                    <div class="form-group-glass">
+                                        <label class="form-label-glass">Preferred Date</label>
+                                        <input type="date" name="appointmentdate" class="form-control-glass" required>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <select name="department" class="form-control" required>
-                                        <option value="">Select Department</option>
-                                        <option>Dental Care</option>
-                                        <option>Cardiology</option>
-                                        <option>General Medicine</option>
-                                    </select>
+                                    <div class="form-group-glass">
+                                        <label class="form-label-glass">Department</label>
+                                        <select name="department" class="form-control-glass" required>
+                                            <option value="">Select Department</option>
+                                            <option>General Medicine</option>
+                                            <option>Cardiology</option>
+                                            <option>Pediatrics</option>
+                                            <option>Gynecology</option>
+                                            <option>Orthopedics</option>
+                                            <option>Dermatology</option>
+                                            <option>Neurology</option>
+                                            <option>Ophthalmology</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary w-100">
+                                    <button type="submit" class="btn-submit-glass">
+                                        <i class="fa-solid fa-calendar-plus"></i>
                                         Book Appointment
                                     </button>
                                 </div>
@@ -671,8 +623,6 @@
                         </div>
                     </form>
                 </div>
-
-
 
             </div>
         </div>

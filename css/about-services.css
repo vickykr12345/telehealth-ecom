@@ -50,6 +50,26 @@
   contain: layout style paint;
 }
 
+/* CSS-based staggered animation - replaces JavaScript */
+.service-card-grid .service-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.service-card-grid .service-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.service-card-grid .service-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.service-card-grid .service-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.service-card-grid .service-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.service-card-grid .service-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
 .service-card {
   background: var(--bg);
   border: 1px solid var(--border);
@@ -68,11 +88,8 @@
   /* Performance optimizations */
   will-change: transform;
   transform: translateZ(0);
-  /* Use hardware acceleration */
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  -o-transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Smooth hover animation */

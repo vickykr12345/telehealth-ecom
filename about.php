@@ -63,6 +63,7 @@
                             src="images/doctor-consultation.webp"
                             alt="Doctor consulting with a patient in a modern care setting"
                             class="th-about-media-card__image"
+                            loading="lazy"
                         >
 
                         <div class="th-about-floating-card th-about-floating-card--top">
@@ -424,7 +425,7 @@
 
             <div class="th-about-lab-grid">
                 <article class="th-about-lab-card">
-                    <img src="images/lab1.webp" alt="Modern clinical chemistry laboratory" class="th-about-lab-card__image">
+                    <img src="images/lab1.webp" alt="Modern clinical chemistry laboratory" class="th-about-lab-card__image" loading="lazy">
                     <div class="th-about-lab-card__overlay">
                         <span class="th-about-lab-card__tag">Clinical Chemistry</span>
                         <h3 class="th-about-lab-card__title">Fast, accurate testing with modern diagnostic support.</h3>
@@ -432,7 +433,7 @@
                 </article>
 
                 <article class="th-about-lab-card">
-                    <img src="images/lab2.webp" alt="Clinical microbiology laboratory analysis" class="th-about-lab-card__image">
+                    <img src="images/lab2.webp" alt="Clinical microbiology laboratory analysis" class="th-about-lab-card__image" loading="lazy">
                     <div class="th-about-lab-card__overlay">
                         <span class="th-about-lab-card__tag">Clinical Microbiology</span>
                         <h3 class="th-about-lab-card__title">Advanced lab capability for detailed and dependable results.</h3>
@@ -452,7 +453,7 @@
             <div class="th-about-team-grid">
                 <article class="th-about-doctor-card">
                     <div class="th-about-doctor-card__media">
-                        <img src="images/doc1.webp" alt="Lucas Murray, Dental Specialist" class="th-about-doctor-card__image">
+                        <img src="images/doc1.webp" alt="Lucas Murray, Dental Specialist" class="th-about-doctor-card__image" loading="lazy">
                     </div>
                     <div class="th-about-doctor-card__body">
                         <h3 class="th-about-doctor-card__name">Lucas Murray</h3>
@@ -462,7 +463,7 @@
 
                 <article class="th-about-doctor-card">
                     <div class="th-about-doctor-card__media">
-                        <img src="images/doc2.webp" alt="Tommy Gould, Heart Specialist" class="th-about-doctor-card__image">
+                        <img src="images/doc2.webp" alt="Tommy Gould, Heart Specialist" class="th-about-doctor-card__image" loading="lazy">
                     </div>
                     <div class="th-about-doctor-card__body">
                         <h3 class="th-about-doctor-card__name">Tommy Gould</h3>
@@ -472,7 +473,7 @@
 
                 <article class="th-about-doctor-card">
                     <div class="th-about-doctor-card__media">
-                        <img src="images/doc3.webp" alt="Kyle Macdonald, Skin Specialist" class="th-about-doctor-card__image">
+                        <img src="images/doc3.webp" alt="Kyle Macdonald, Skin Specialist" class="th-about-doctor-card__image" loading="lazy">
                     </div>
                     <div class="th-about-doctor-card__body">
                         <h3 class="th-about-doctor-card__name">Kyle Macdonald</h3>
@@ -510,24 +511,22 @@
 document.addEventListener("DOMContentLoaded", function () {
   const aboutTabButtons = document.querySelectorAll("[data-th-about-tab-trigger]");
   const aboutTabPanels = document.querySelectorAll("[data-th-about-tab-panel]");
-  const serviceCards = document.querySelectorAll(".service-card");
 
-  // Performance optimized tab switching
+  // Performance optimized tab switching - minimal DOM operations
   aboutTabButtons.forEach((aboutTabButton) => {
     aboutTabButton.addEventListener("click", function () {
       const aboutTarget = aboutTabButton.getAttribute("data-th-about-tab-trigger");
-
-      // Batch DOM operations for better performance
-      const activeButton = document.querySelector(".th-about-tab--active");
-      if (activeButton) {
-        activeButton.classList.remove("th-about-tab--active");
-        activeButton.setAttribute("aria-selected", "false");
-      }
+      
+      // Use classList for batch operations
+      aboutTabButtons.forEach(btn => {
+        btn.classList.remove("th-about-tab--active");
+        btn.setAttribute("aria-selected", "false");
+      });
       
       aboutTabButton.classList.add("th-about-tab--active");
       aboutTabButton.setAttribute("aria-selected", "true");
 
-      // Update panels
+      // Update panels efficiently
       aboutTabPanels.forEach((panel) => {
         const matches = panel.getAttribute("data-th-about-tab-panel") === aboutTarget;
         panel.classList.toggle("th-about-tab-panel--active", matches);
@@ -536,41 +535,29 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Performance optimized intersection observer for service cards
+  // Optimized intersection observer for service cards with batch processing
   const observerOptions = {
     root: null,
     rootMargin: '0px',
-    threshold: 0.15
+    threshold: 0.1
   };
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("animate-in");
-        // Stop observing once animated to improve performance
-        observer.unobserve(entry.target);
-      }
+    // Use requestAnimationFrame for smooth animations
+    requestAnimationFrame(() => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-in");
+          observer.unobserve(entry.target);
+        }
+      });
     });
   }, observerOptions);
 
-  // Observe service cards with staggered animation
-  serviceCards.forEach((card, index) => {
-    // Add staggered delay for better visual effect
-    card.style.animationDelay = `${index * 0.1}s`;
-    observer.observe(card);
-  });
-
-  // Performance optimized hover effects using CSS classes
+  // Observe service cards - CSS handles staggered animation via nth-child
+  const serviceCards = document.querySelectorAll(".service-card");
   serviceCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      card.style.transform = 'translateY(-10px) scale(1.02)';
-      card.style.boxShadow = '0 16px 32px rgba(15, 23, 42, 0.12)';
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'translateY(0) scale(1)';
-      card.style.boxShadow = '0 8px 24px rgba(15, 23, 42, 0.08)';
-    });
+    observer.observe(card);
   });
 
   // Cleanup function
